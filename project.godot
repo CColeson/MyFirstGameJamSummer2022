@@ -14,6 +14,10 @@ config/name="MyFirstGameJamSummer2022"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Game="*res://Program/Game.cs"
+
 [input]
 
 move={
