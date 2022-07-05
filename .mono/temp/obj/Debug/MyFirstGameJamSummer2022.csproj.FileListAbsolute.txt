@@ -1,9 +1,0 @@
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\bin\Debug\MyFirstGameJamSummer2022.dll
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\bin\Debug\MyFirstGameJamSummer2022.pdb
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.csproj.AssemblyReference.cache
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.AssemblyInfoInputs.cache
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.AssemblyInfo.cs
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.csproj.CoreCompileInputs.cache
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.dll
-C:\Users\corey\Documents\MyFirstGameJamSummer2022\.mono\temp\obj\Debug\MyFirstGameJamSummer2022.pdb

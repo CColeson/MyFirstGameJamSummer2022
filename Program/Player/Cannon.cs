@@ -47,13 +47,13 @@ public class Cannon : Position2D
 	public void _OnTimerTimeout()
 	{
 		var p = Projectile.Instance<CannonBall>();
+		FireSound.PitchScale = Rng.RandfRange(PitchMin, PitchMax);
+		FireSound.Play();
 		World.AddChild(p);
 		p.GlobalPosition = GlobalPosition;
 		p.Direction = p.GlobalPosition.DirectionTo(DirectionPointer.GlobalPosition);
 		EmitSignal(nameof(OnFire));
 		FireParticles();
-		FireSound.PitchScale = Rng.RandfRange(PitchMin, PitchMax);
-		FireSound.Play();
 	}
 
 	private void FireParticles()
@@ -69,7 +69,6 @@ public class Cannon : Position2D
 		foreach (var p in ParticleEmitters)
 		{
 			p.Direction = p.Position.DirectionTo(DirectionPointer.Position);
-			GD.Print(p.Direction);
 		}
 	}
 }

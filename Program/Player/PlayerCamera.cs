@@ -11,31 +11,31 @@ public class PlayerCamera : Camera2D
 	public float ZoomFactor = 0.1f;
 	[Export]
 	public float ZoomDuration = 0.2f;
-    [Export]
-    public float Decay = 0.8f;
-    [Export]
-    public Vector2 MaxOffset = new Vector2(100, 50);
-    [Export]
-    public float MaxRoll = 0.1f;
+	[Export]
+	public float Decay = 0.8f;
+	[Export]
+	public Vector2 MaxOffset = new Vector2(100, 50);
+	[Export]
+	public float MaxRoll = 0.1f;
 
-    private float _ZoomLevel = 1f;
+	private float _ZoomLevel = 1f;
 	public Tween Tween;
-    private RandomNumberGenerator Rng = new RandomNumberGenerator();
-    private OpenSimplexNoise Noise;
-    private float Trauma = 0f;
-    private float TraumaPower = 2;
-    private float NoiseY = 0;
+	private RandomNumberGenerator Rng = new RandomNumberGenerator();
+	private OpenSimplexNoise Noise;
+	private float Trauma = 0f;
+	private float TraumaPower = 2;
+	private float NoiseY = 0;
 	
 	public override void _Ready()
 	{
 		base._Ready();
 		Tween = GetNode<Tween>("Tween");
 
-        Noise = new OpenSimplexNoise();
-        Rng.Randomize();
-        Noise.Seed = (int) Rng.Randi();
-        Noise.Period = 4;
-        Noise.Octaves = 2;
+		Noise = new OpenSimplexNoise();
+		Rng.Randomize();
+		Noise.Seed = (int) Rng.Randi();
+		Noise.Period = 4;
+		Noise.Octaves = 2;
 	}
 	
 	protected float ZoomLevel
@@ -73,28 +73,27 @@ public class PlayerCamera : Camera2D
 			ZoomLevel += ZoomFactor;
 		}
 
-        if (Trauma > 0) 
-        {
-            Trauma = Mathf.Max(Trauma - Decay * delta, 0);
-            Shake();
-        }
+		if (Trauma > 0) 
+		{
+			Trauma = Mathf.Max(Trauma - Decay * delta, 0);
+			Shake();
+		}
 	}
 
-    public void Shake()
-    {
-        var amount = Mathf.Pow(Trauma, TraumaPower);
-        NoiseY += 1;
-        Rotation = MaxRoll * amount * Noise.GetNoise2d(Noise.Seed, NoiseY);
-        Offset = new Vector2()
-        {
-            x = MaxOffset.x * amount * Noise.GetNoise2d(Noise.Seed * 2, NoiseY),
-            y = MaxOffset.y * amount * Noise.GetNoise2d(Noise.Seed * 2, NoiseY)
-        };
-    }
+	public void Shake()
+	{
+		var amount = Mathf.Pow(Trauma, TraumaPower);
+		NoiseY += 1;
+		Rotation = MaxRoll * amount * Noise.GetNoise2d(Noise.Seed, NoiseY);
+		Offset = new Vector2()
+		{
+			x = MaxOffset.x * amount * Noise.GetNoise2d(Noise.Seed * 2, NoiseY),
+			y = MaxOffset.y * amount * Noise.GetNoise2d(Noise.Seed * 2, NoiseY)
+		};
+	}
 
-    public void AddTrauma(float amount)
-    {
-        Trauma = Mathf.Min(Trauma + amount, 1f);
-        GD.Print(Trauma);
-    }
+	public void AddTrauma(float amount)
+	{
+		Trauma = Mathf.Min(Trauma + amount, 1f);
+	}
 }
