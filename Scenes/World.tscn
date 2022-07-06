@@ -471,7 +471,7 @@ extents = Vector2( 9, 9 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 507, 302 )
 MoveSpeed = 100.0
-MoveSpeedWhileRotating = 300.0
+MoveSpeedWhileRotating = 75.0
 RotationSpeed = 1.0
 
 [node name="TileMap" type="TileMap" parent="."]

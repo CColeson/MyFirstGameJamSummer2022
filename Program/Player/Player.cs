@@ -13,7 +13,8 @@ public class Player : KinematicBody2D
 	[Export]
 	public float RotationSpeed = 0.5f;
 	public Vector2? PositionToMoveTo = null;
-
+	public Vector2? DirectionToMoveTo = null;
+	public Vector2 PositionBeforeMove = Vector2.Zero;
 	public Cannons LeftCannons;
 	public Cannons RightCannons;
 	public PlayerCamera Camera;
@@ -29,6 +30,7 @@ public class Player : KinematicBody2D
 		RightCannons.Ship = this;
 		InitializeCannonSignals();
 		Camera = GetNode<PlayerCamera>("Camera2D");
+		PositionBeforeMove = GlobalPosition;
 		var g = Game.GetGlobalInstance(this);
 		Crew = new List<CrewMember>()
 		{
@@ -43,7 +45,10 @@ public class Player : KinematicBody2D
 		if (Input.IsActionPressed("move")) 
 		{
 			PositionToMoveTo = GetGlobalMousePosition();
+			DirectionToMoveTo = GlobalPosition.DirectionTo((Vector2) PositionToMoveTo);
+			PositionBeforeMove = GlobalPosition;
 		}
+			
 
 		if (Input.IsActionJustPressed("attack")) 
 		{
@@ -56,24 +61,20 @@ public class Player : KinematicBody2D
 	
 	public override void _PhysicsProcess(float delta)
 	{
-		if (PositionToMoveTo != null && Position.DistanceTo((Vector2) PositionToMoveTo) > 20)
-		{
-			var p = (Vector2) PositionToMoveTo;
-			var moveDir = Position.DirectionTo(p).Normalized();
-			var speed = MoveSpeed;
+		if (PositionToMoveTo == null || DirectionToMoveTo == null) return;
+		var p = (Vector2) PositionToMoveTo;
+		var d = (Vector2) DirectionToMoveTo;
 
-			GD.Print(Rotation + " - " + Transform.x.AngleTo(p - GlobalPosition) );
-			if (Rotation != GlobalPosition.AngleTo(p - GlobalPosition))
-				speed = MoveSpeedWhileRotating;
-			
-			MoveAndSlide(speed * moveDir);
-			RotateToTarget(p, delta);
-		}
+		var moveDir = d.Normalized();
+		var speed = MoveSpeed;
+		
+		RotateToTarget(PositionBeforeMove, p, delta);
+		MoveAndSlide(speed * moveDir);
 	}
 
-	private void RotateToTarget(Vector2 targetPos, float delta)
+	private void RotateToTarget(Vector2 orignalPos, Vector2 targetPos, float delta)
 	{
-		var direction = GlobalPosition.DirectionTo(targetPos);
+		var direction = orignalPos.DirectionTo(targetPos);
 		var angleTo = Transform.x.AngleTo(direction);
 		Rotate(Mathf.Sign(angleTo) * Mathf.Min(delta * RotationSpeed, Mathf.Abs(angleTo)));
 	}
