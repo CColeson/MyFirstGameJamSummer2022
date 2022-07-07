@@ -20,7 +20,8 @@ public class Player : KinematicBody2D
 	public PlayerCamera Camera;
 	public List<CrewMember> Crew;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
-	
+	[Export]
+	public float RotMov = 0.4f;
 	public override void _Ready()
 	{
 		Rng.Randomize();
@@ -36,10 +37,10 @@ public class Player : KinematicBody2D
 		{
 			new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
 			new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
-			new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
+			//new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
 		};
 	}
-	
+	public bool MoveWithSin = false;
 	public override void _Process(float delta)
 	{
 		if (Input.IsActionPressed("move")) 
@@ -63,9 +64,8 @@ public class Player : KinematicBody2D
 	{
 		if (PositionToMoveTo == null || DirectionToMoveTo == null) return;
 		var p = (Vector2) PositionToMoveTo;
-		var d = (Vector2) DirectionToMoveTo;
-
-		var moveDir = d.Normalized();
+	
+		var moveDir = Transform.x;
 		var speed = MoveSpeed;
 		
 		RotateToTarget(PositionBeforeMove, p, delta);

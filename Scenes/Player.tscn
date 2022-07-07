@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Visuals/Ships/ship (1).png" type="Texture" id=1]
 [ext_resource path="res://Program/Player/Player.cs" type="Script" id=2]
@@ -10,6 +10,10 @@
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 21.0
 height = 70.0
+
+[sub_resource type="OccluderPolygon2D" id=2]
+closed = false
+polygon = PoolVector2Array( -56, 0, -55, 2, -51, 3, -49, 9, -40, 17, -33, 19, -32, 28, -26, 28, -14, 32, -1, 32, 4, 33, 9, 20, 29, 18, 49, 8, 56, 2, 56, -2 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -62,3 +66,6 @@ MaxZoom = 5.0
 ZoomFactor = 0.2
 
 [node name="Tween" type="Tween" parent="Camera2D"]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource( 2 )
