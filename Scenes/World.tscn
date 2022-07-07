@@ -2,11 +2,12 @@
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Visuals/Tilesheet/tiles_sheet.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Visuals/Ship parts/crew (1).png" type="Texture" id=3]
+[ext_resource path="res://Scenes/OverboardPerson.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Program/UI/CrewMemberCountLabel.cs" type="Script" id=4]
 [ext_resource path="res://Assets/Visuals/dungeonui.v1.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Fonts/PixelPirateRegular-PXYZ.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=7]
+[ext_resource path="res://Program/World.cs" type="Script" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -466,9 +467,6 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 32, 16, 16, 64, 0, 64, 0 )
 } ]
 23/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 9, 9 )
-
 [sub_resource type="DynamicFont" id=15]
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
@@ -701,11 +699,11 @@ shader_param/tile = Vector2( 5, 5 )
 shader_param/wave_speed = 0.01
 
 [node name="World" type="Node2D"]
+script = ExtResource( 8 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 507, 302 )
 MoveSpeed = 100.0
-MoveSpeedWhileRotating = 75.0
 RotationSpeed = 1.0
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -713,16 +711,6 @@ z_index = -2
 tile_set = SubResource( 13 )
 format = 1
 tile_data = PoolIntArray( 458758, 9, 0, 458759, 10, 0, 458760, 11, 0, 458761, 12, 0, 524294, 13, 0, 524295, 15, 0, 524296, 20, 0, 524297, 16, 0, 589830, 17, 0, 589831, 14, 0, 589832, 20, 0, 589833, 16, 0, 655366, 18, 0, 655367, 21, 0, 655368, 19, 0, 655369, 23, 0 )
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="Sprite" type="Sprite" parent="Area2D"]
-texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 14 )
-
-[node name="SinkTimer" type="Timer" parent="Area2D"]
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
@@ -732,21 +720,7 @@ margin_bottom = 14.0
 text = "Crew Members: "
 script = ExtResource( 4 )
 
-[node name="CrewMemberManager" type="MarginContainer" parent="GUI"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 288.0
-margin_top = 159.0
-margin_right = -254.0
-margin_bottom = -135.0
-grow_horizontal = 0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 18.21
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Control" type="Control" parent="GUI"]
+[node name="CrewMemberManager" type="Control" parent="GUI"]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -760,7 +734,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NinePatchRect" type="NinePatchRect" parent="GUI/Control"]
+[node name="NinePatchRect" type="NinePatchRect" parent="GUI/CrewMemberManager"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -777,11 +751,8 @@ patch_margin_left = 8
 patch_margin_top = 7
 patch_margin_right = 8
 patch_margin_bottom = 7
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="MarginContainer" type="MarginContainer" parent="GUI/Control/NinePatchRect"]
+[node name="MarginContainer" type="MarginContainer" parent="GUI/CrewMemberManager/NinePatchRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 14.0
@@ -792,7 +763,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/Control/NinePatchRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer"]
 margin_right = 512.0
 margin_bottom = 261.0
 grow_horizontal = 2
@@ -803,11 +774,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Control/NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="CrewMemberLine" type="HBoxContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_right = 512.0
 margin_bottom = 22.0
 
-[node name="Label" type="Label" parent="GUI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Name" type="Label" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine"]
 margin_right = 268.0
 margin_bottom = 22.0
 grow_horizontal = 2
@@ -820,9 +791,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="GUI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HP" type="Label" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine"]
 margin_left = 272.0
-margin_right = 492.0
+margin_right = 512.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
@@ -833,7 +804,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="GUI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine"]
+visible = false
 margin_left = 496.0
 margin_right = 512.0
 margin_bottom = 22.0
@@ -841,7 +813,7 @@ grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 16, 16 )
 
-[node name="TextureButton" type="TextureButton" parent="GUI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/CenterContainer"]
+[node name="TextureButton" type="TextureButton" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine/CenterContainer"]
 margin_top = 3.0
 margin_right = 16.0
 margin_bottom = 19.0
@@ -857,8 +829,13 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 material = SubResource( 18 )
 position = Vector2( 519, 454 )
 scale = Vector2( 81.1934, 63.2012 )
 z_index = -999
 texture = ExtResource( 7 )
+
+[node name="OverboardCrewMembers" type="Node" parent="."]
+
+[node name="OverboardPerson" parent="OverboardCrewMembers" instance=ExtResource( 3 )]

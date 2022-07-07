@@ -9,8 +9,6 @@ public class Player : KinematicBody2D
 	[Export]
 	public float MoveSpeed = 30;
 	[Export]
-	public float MoveSpeedWhileRotating = 10;
-	[Export]
 	public float RotationSpeed = 0.5f;
 	public Vector2? PositionToMoveTo = null;
 	public Vector2? DirectionToMoveTo = null;
@@ -20,8 +18,6 @@ public class Player : KinematicBody2D
 	public PlayerCamera Camera;
 	public List<CrewMember> Crew;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
-	[Export]
-	public float RotMov = 0.4f;
 	public override void _Ready()
 	{
 		Rng.Randomize();
@@ -35,12 +31,10 @@ public class Player : KinematicBody2D
 		var g = Game.GetGlobalInstance(this);
 		Crew = new List<CrewMember>()
 		{
-			new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
-			new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
-			//new CrewMember() { MemberName = g.GetRandomName(), HP = Rng.RandiRange(2, 5) },
+			g.CrewMemberGenerator.Generate(),
+			g.CrewMemberGenerator.Generate()
 		};
 	}
-	public bool MoveWithSin = false;
 	public override void _Process(float delta)
 	{
 		if (Input.IsActionPressed("move")) 
@@ -94,5 +88,13 @@ public class Player : KinematicBody2D
 	public void _OnCannonFire()
 	{
 		Camera.AddTrauma(0.2f);
+	}
+
+	public event PickUpOverboardPerson OverBoardPersonPickedUp;
+	public delegate void PickUpOverboardPerson(OverboardPerson person);
+	[Handles(OverBoardPersonPickedUp)]
+	public void OnOverBoardPersonPickedUp(OverboardPerson person)
+	{
+		Crew.Add(person.CrewMember);
 	}
 }
