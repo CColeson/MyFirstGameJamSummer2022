@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Visuals/Tilesheet/tiles_sheet.png" type="Texture" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://icon.png" type="Texture" id=7]
 [ext_resource path="res://Program/World.cs" type="Script" id=8]
 [ext_resource path="res://Scenes/CannonBall.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Visuals/light.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/CrewMemberLine.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Program/UI/CrewManagerBody.cs" type="Script" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -473,15 +476,6 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=15]
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 6 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 5 )
-region = Rect2( 24, 248, 8, 8 )
-
 [sub_resource type="Shader" id=17]
 code = "shader_type canvas_item;
 
@@ -715,13 +709,25 @@ RotationSpeed = 1.0
 [node name="OverboardCrewMembers" type="Node" parent="."]
 
 [node name="OverboardPerson" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
-position = Vector2( 303, 127 )
+position = Vector2( 290, 127 )
 
 [node name="OverboardPerson2" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
-position = Vector2( 177, 168 )
+position = Vector2( 311, 148 )
 
 [node name="OverboardPerson3" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
-position = Vector2( 239, 62 )
+position = Vector2( 321, 174 )
+
+[node name="OverboardPerson4" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 293, 167 )
+
+[node name="OverboardPerson5" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 269, 152 )
+
+[node name="OverboardPerson6" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 250, 139 )
+
+[node name="OverboardPerson7" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 229, 121 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -2
@@ -739,9 +745,6 @@ margin_bottom = 29.0
 custom_fonts/font = SubResource( 19 )
 text = "Crew Members: "
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CrewMemberManager" type="Control" parent="GUI"]
 visible = false
@@ -753,9 +756,6 @@ margin_left = -512.0
 margin_top = -300.0
 margin_right = 512.0
 margin_bottom = 300.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="NinePatchRect" type="NinePatchRect" parent="GUI/CrewMemberManager"]
 anchor_left = 0.5
@@ -786,78 +786,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer"]
+[node name="CrewManagerBody" type="VBoxContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer"]
 margin_right = 512.0
 margin_bottom = 261.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="CrewMemberLine" type="HBoxContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer"]
-margin_right = 512.0
-margin_bottom = 22.0
-
-[node name="Name" type="Label" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine"]
-margin_right = 268.0
-margin_bottom = 22.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-size_flags_vertical = 2
-custom_fonts/font = SubResource( 15 )
-text = "alexander hemingway"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HP" type="Label" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine"]
-margin_left = 272.0
-margin_right = 512.0
-margin_bottom = 22.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-custom_fonts/font = SubResource( 15 )
-text = "3/3"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CenterContainer" type="CenterContainer" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine"]
-visible = false
-margin_left = 496.0
-margin_right = 512.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 16, 16 )
-
-[node name="TextureButton" type="TextureButton" parent="GUI/CrewMemberManager/NinePatchRect/MarginContainer/VBoxContainer/CrewMemberLine/CenterContainer"]
-margin_top = 3.0
-margin_right = 16.0
-margin_bottom = 19.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 16, 16 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture_normal = SubResource( 16 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+CrewMemberLine = ExtResource( 11 )
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
 material = SubResource( 18 )
-position = Vector2( 519, 454 )
-scale = Vector2( 81.1934, 63.2012 )
+position = Vector2( 519, 325.719 )
+scale = Vector2( 81.1934, 67.21 )
 z_index = -999
 texture = ExtResource( 7 )
 
 [node name="CannonBall" parent="." instance=ExtResource( 9 )]
 position = Vector2( 380, 214 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.694118, 0.694118, 0.694118, 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 411, 245 )
+scale = Vector2( 123.357, 106.076 )
+texture = ExtResource( 10 )
+energy = 0.6
+range_height = 2048.0

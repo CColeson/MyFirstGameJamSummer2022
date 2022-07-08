@@ -91,4 +91,6 @@ margin_left = -177.5
 margin_top = -20.0
 margin_right = 177.5
 margin_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
 alignment = 2

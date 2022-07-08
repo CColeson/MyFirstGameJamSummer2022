@@ -8,11 +8,13 @@ public struct CrewMember
     public string FirstName;
     public string LastName;
     public int HP;
+    public int MaxHP;
 
-    public CrewMember(string firstName, string lastName, int hitPoints)
+    public CrewMember(string firstName, string lastName, int maxHP, int HP)
     {
         FirstName = firstName;
         LastName = lastName;
-        HP = hitPoints;
+        MaxHP = maxHP;
+        this.HP = HP;
     }
 }

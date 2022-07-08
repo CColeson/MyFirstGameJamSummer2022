@@ -19,7 +19,8 @@ public partial class Game : Node
         public CrewMember Generate()
         {
             var n = GetRandomName();
-            return new CrewMember(n.Item1, n.Item2, GetRandomHPValue());
+            var h = GetRandomHPValue();
+            return new CrewMember(n.Item1, n.Item2, h, h);
         }
 
         private int GetRandomHPValue()

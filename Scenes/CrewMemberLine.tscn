@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Visuals/dungeonui.v1.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Fonts/PixelPirateRegular-PXYZ.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Program/UI/CrewMemberLine.cs" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=15]
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 1 )
+region = Rect2( 24, 248, 8, 8 )
+
+[node name="CrewMemberLine" type="HBoxContainer"]
+margin_right = 512.0
+margin_bottom = 22.0
+script = ExtResource( 3 )
+
+[node name="Name" type="Label" parent="."]
+margin_right = 244.0
+margin_bottom = 22.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+custom_fonts/font = SubResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP" type="Label" parent="."]
+margin_left = 248.0
+margin_right = 492.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+custom_fonts/font = SubResource( 15 )
+text = "3/3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_left = 496.0
+margin_right = 512.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 16 )
+
+[node name="TextureButton" type="TextureButton" parent="CenterContainer"]
+margin_top = 3.0
+margin_right = 16.0
+margin_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 16 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 16 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

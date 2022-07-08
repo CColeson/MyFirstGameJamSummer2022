@@ -106,6 +106,7 @@ public class Player : KinematicBody2D
 		{
 			Crew.Add(p.CrewMember);
 			ActionLabel.CrewMemberAdded(p.CrewMember);
+			EmitSignal(nameof(OnPlayerCrewMemberAdded), this);
 			p.QueueFree();
 		}
 			
