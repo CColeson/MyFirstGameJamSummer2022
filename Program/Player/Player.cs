@@ -39,7 +39,8 @@ public class Player : KinematicBody2D
 			g.CrewMemberGenerator.Generate()
 		};
 
-		ActionLabel = GetNode<ActionLabel>("Player"); 
+		ActionLabel = GetNode<ActionLabel>("ActionLabel");
+		ActionLabel.Player = this;
 
 		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
 	}

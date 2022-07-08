@@ -31,8 +31,8 @@ public partial class Game : Node
         {
             return
             (
-                FirstNames[Rng.RandiRange(0, FirstNames.Count - 1)],
-                LastNames[Rng.RandiRange(0, LastNames.Count - 1)]
+                FirstNames[Rng.RandiRange(0, FirstNames.Count - 1)].ToLower(),
+                LastNames[Rng.RandiRange(0, LastNames.Count - 1)].ToLower()
             );
         }
     }

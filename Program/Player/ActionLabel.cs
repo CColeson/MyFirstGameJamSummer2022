@@ -5,10 +5,15 @@ public class ActionLabel : Node2D
 {
     [Export]
     public Vector2 MarginFromPlayer = new Vector2(0, -60);
-    private Player Player;
+    [Export]
+    public PackedScene LabelNode;
+    public VBoxContainer Container;
+    public Player Player;
+
     public override void _Ready()
     {
         Player = Game.GetPlayerInstance(this);
+        Container = GetNode<VBoxContainer>("Container");
     }
 
     public override void _Process(float delta)
@@ -19,6 +24,8 @@ public class ActionLabel : Node2D
 
     public void CrewMemberAdded(CrewMember member)
     {
-        //TODO
+        var n = LabelNode.Instance<ActionLabelNode>();
+        Container.AddChild(n);
+        n.Text = $"picked up {member.FirstName} {member.LastName}";  
     }
 }

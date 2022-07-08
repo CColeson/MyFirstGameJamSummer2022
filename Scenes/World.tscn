@@ -715,6 +715,13 @@ RotationSpeed = 1.0
 [node name="OverboardCrewMembers" type="Node" parent="."]
 
 [node name="OverboardPerson" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 303, 127 )
+
+[node name="OverboardPerson2" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 177, 168 )
+
+[node name="OverboardPerson3" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 239, 62 )
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -2
