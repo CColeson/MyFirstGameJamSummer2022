@@ -13,6 +13,6 @@ public class CrewMemberCountLabel : Label
 
     public override void _Process(float delta)
     {
-        this.Text = $"Crew Members: {Player.Crew.Count} / 3";
+        this.Text = $"crew members:   {Player.Crew.Count} / 3";
     }
 }

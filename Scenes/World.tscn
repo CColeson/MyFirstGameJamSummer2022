@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Visuals/Tilesheet/tiles_sheet.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/Fonts/PixelPirateRegular-PXYZ.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://icon.png" type="Texture" id=7]
 [ext_resource path="res://Program/World.cs" type="Script" id=8]
+[ext_resource path="res://Scenes/CannonBall.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -467,6 +468,11 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 32, 16, 16, 64, 0, 64, 0 )
 } ]
 23/z_index = 0
 
+[sub_resource type="DynamicFont" id=19]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
 [sub_resource type="DynamicFont" id=15]
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
@@ -706,6 +712,10 @@ position = Vector2( 507, 302 )
 MoveSpeed = 100.0
 RotationSpeed = 1.0
 
+[node name="OverboardCrewMembers" type="Node" parent="."]
+
+[node name="OverboardPerson" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -2
 tile_set = SubResource( 13 )
@@ -715,10 +725,16 @@ tile_data = PoolIntArray( 458758, 9, 0, 458759, 10, 0, 458760, 11, 0, 458761, 12
 [node name="GUI" type="CanvasLayer" parent="."]
 
 [node name="CrewMemberCount" type="Label" parent="GUI"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_left = 6.0
+margin_top = 7.0
+margin_right = 198.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 19 )
 text = "Crew Members: "
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CrewMemberManager" type="Control" parent="GUI"]
 visible = false
@@ -836,6 +852,5 @@ scale = Vector2( 81.1934, 63.2012 )
 z_index = -999
 texture = ExtResource( 7 )
 
-[node name="OverboardCrewMembers" type="Node" parent="."]
-
-[node name="OverboardPerson" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+[node name="CannonBall" parent="." instance=ExtResource( 9 )]
+position = Vector2( 380, 214 )

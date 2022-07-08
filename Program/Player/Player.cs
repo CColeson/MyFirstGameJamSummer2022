@@ -6,18 +6,22 @@ using GArray = Godot.Collections.Array;
 
 public class Player : KinematicBody2D
 {
-	[Export]
-	public float MoveSpeed = 30;
-	[Export]
+	[Export] 
+	public float MoveSpeed = 30;  
+	[Export] 
 	public float RotationSpeed = 0.5f;
+	[Signal]
+	public delegate void OnPlayerCrewMemberAdded();
 	public Vector2? PositionToMoveTo = null;
 	public Vector2? DirectionToMoveTo = null;
 	public Vector2 PositionBeforeMove = Vector2.Zero;
 	public Cannons LeftCannons;
 	public Cannons RightCannons;
 	public PlayerCamera Camera;
+	public ActionLabel ActionLabel;
 	public List<CrewMember> Crew;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
+
 	public override void _Ready()
 	{
 		Rng.Randomize();
@@ -34,6 +38,10 @@ public class Player : KinematicBody2D
 			g.CrewMemberGenerator.Generate(),
 			g.CrewMemberGenerator.Generate()
 		};
+
+		ActionLabel = GetNode<ActionLabel>("Player"); 
+
+		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
 	}
 	public override void _Process(float delta)
 	{
@@ -90,11 +98,15 @@ public class Player : KinematicBody2D
 		Camera.AddTrauma(0.2f);
 	}
 
-	public event PickUpOverboardPerson OverBoardPersonPickedUp;
-	public delegate void PickUpOverboardPerson(OverboardPerson person);
-	[Handles(OverBoardPersonPickedUp)]
-	public void OnOverBoardPersonPickedUp(OverboardPerson person)
+	public void OnOverBoardPersonPickedUp(Node person)
 	{
-		Crew.Add(person.CrewMember);
+		var p = person as OverboardPerson;
+		if (p != null)
+		{
+			Crew.Add(p.CrewMember);
+			ActionLabel.CrewMemberAdded(p.CrewMember);
+			p.QueueFree();
+		}
+			
 	}
 }

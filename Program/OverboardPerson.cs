@@ -10,10 +10,11 @@ public class OverboardPerson : Area2D
             .GetGlobalInstance(this)
             .CrewMemberGenerator
             .Generate();
-        
-        Game
-            .GetWorldInstance(this)
-            .ConnectOverboardPersonSignals(this);
+    }
+
+    public void OnPickup()
+    {
+        QueueFree();
     }
 
 }

@@ -3,8 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CrewMember
+public struct CrewMember
 {
-    public (string, string) MemberName;
-    public int HP = 3;
+    public string FirstName;
+    public string LastName;
+    public int HP;
+
+    public CrewMember(string firstName, string lastName, int hitPoints)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        HP = hitPoints;
+    }
 }

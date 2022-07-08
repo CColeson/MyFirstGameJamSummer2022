@@ -18,11 +18,8 @@ public partial class Game : Node
 
         public CrewMember Generate()
         {
-            return new CrewMember
-            {
-                MemberName = GetRandomName(),
-                HP = GetRandomHPValue()
-            };
+            var n = GetRandomName();
+            return new CrewMember(n.Item1, n.Item2, GetRandomHPValue());
         }
 
         private int GetRandomHPValue()
