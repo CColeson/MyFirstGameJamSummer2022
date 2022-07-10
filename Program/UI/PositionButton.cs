@@ -5,21 +5,11 @@ public class PositionButton : TextureButton
 {
     [Export]
     public CrewPosition Represents;
-    private CrewMember _Member;
-    public CrewMember Member
+    public CrewMemberLine Line;
+
+    public override void _Pressed()
     {
-        get
-        {
-            return _Member;
-        }
-        set
-        {
-            _Member = value;
-            this.Disabled = _Member.CurrentPosition == Represents;
-        }
-    }
-    public override void _Ready()
-    {
-        
+        base._Pressed();
+        Line.OnButtonPressed(this);
     }
 }

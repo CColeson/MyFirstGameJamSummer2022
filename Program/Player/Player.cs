@@ -29,11 +29,13 @@ public class Player : KinematicBody2D
 	public State Anchored;
 	public State Default;
 	public State CurrentState;
+	private World World;
 
 	public override void _Ready()
 	{
 		Rng.Randomize();
-		var g = Game.GetGlobalInstance(this);
+
+		World = Game.GetWorldInstance(this);
 		LeftCannons = GetNode<Cannons>("Cannons/Left");
 		RightCannons = GetNode<Cannons>("Cannons/Right");
 		Camera = GetNode<PlayerCamera>("Camera2D");
@@ -62,7 +64,7 @@ public class Player : KinematicBody2D
 		}
 			
 
-		if (Input.IsActionJustPressed("attack")) 
+		if (Input.IsActionJustPressed("attack") && !World.CrewMangerIsOpen)
 		{
 			var mp = GetGlobalMousePosition();
 			var disToRight = RightCannons.GlobalPosition.DistanceTo(mp);
@@ -123,6 +125,17 @@ public class Player : KinematicBody2D
 		ActionLabel.Flash("assign a crew member to cannons to shoot");
 	}
 
+	public void _OnCrewMemberPositionChanged(CrewMember m)
+	{
+		if (m.CurrentPosition == CrewPosition.Cannon)
+		{
+			var lc = LeftCannons.AvailableCannons.Count;
+			var rc = RightCannons.AvailableCannons.Count;
+			(lc > rc ? RightCannons : LeftCannons).AssignCannonTo(m);
+		}
+			
+	}
+
 	public void OnOverBoardPersonPickedUp(Node person)
 	{
 		if (!Crew.CanAddCrewMember)
@@ -131,7 +144,6 @@ public class Player : KinematicBody2D
 			return;
 		}
 			
-
 		var p = person as OverboardPerson;
 		if (p != null)
 		{
@@ -153,7 +165,7 @@ public class Player : KinematicBody2D
 		RotateToTarget(PositionBeforeMove, p, delta);
 		MoveAndSlide(MoveSpeed * moveDir);
 	}
-	
+
 	private void InitializeStates()
 	{
 		Default = (float delta) => 

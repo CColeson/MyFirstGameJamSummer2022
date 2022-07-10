@@ -30,7 +30,7 @@ public class Cannons : Node2D
     {
         get
         {
-            return _Cannons.Where(x => x.IsActive).ToList();
+            return _Cannons.Where(x => x.HasCrewMember).ToList();
         }
     }
     public override void _Ready()
@@ -52,6 +52,15 @@ public class Cannons : Node2D
         foreach (var c in AvailableCannons)
         {
             c.Fire();
+        }
+    }
+
+    public void AssignCannonTo(CrewMember m)
+    {
+        var c = _Cannons.Where(x => !x.HasCrewMember).FirstOrDefault();
+        if (c != null)
+        {
+            c.CrewMember = m;
         }
     }
 }

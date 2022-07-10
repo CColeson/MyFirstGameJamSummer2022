@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public struct CrewMember
+public class CrewMember: Godot.Object
 {
     public string FirstName;
     public string LastName;

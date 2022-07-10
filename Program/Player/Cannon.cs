@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Cannon : Position2D
 {
-	public bool IsActive
+	public bool HasCrewMember
 	{
 		get { return CrewMember != null; }
 	}
@@ -27,7 +27,7 @@ public class Cannon : Position2D
 	public PackedScene Projectile;
 	public Timer Timer;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
-	public CrewMember? CrewMember = null;
+	public CrewMember CrewMember = null;
 	public override void _Ready()
 	{
 		World = GetNode<Node2D>("/root/World");
