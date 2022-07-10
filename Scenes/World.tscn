@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Visuals/Tilesheet/tiles_sheet.png" type="Texture" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://Assets/Visuals/light.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/CrewMemberLine.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Program/UI/CrewManagerBody.cs" type="Script" id=12]
+[ext_resource path="res://Program/UI/CurrentSailLabel.cs" type="Script" id=13]
+[ext_resource path="res://Program/UI/PlayerMaxSpeedLabel.cs" type="Script" id=14]
+[ext_resource path="res://Program/UI/PlayerSpeedLabel.cs" type="Script" id=15]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -703,8 +706,6 @@ script = ExtResource( 8 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 507, 302 )
-MoveSpeed = 100.0
-RotationSpeed = 1.0
 
 [node name="OverboardCrewMembers" type="Node" parent="."]
 
@@ -729,6 +730,15 @@ position = Vector2( 250, 139 )
 [node name="OverboardPerson7" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
 position = Vector2( 229, 121 )
 
+[node name="OverboardPerson8" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 229, 121 )
+
+[node name="OverboardPerson9" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 229, 121 )
+
+[node name="OverboardPerson10" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
+position = Vector2( 229, 121 )
+
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -2
 tile_set = SubResource( 13 )
@@ -737,14 +747,55 @@ tile_data = PoolIntArray( 458758, 9, 0, 458759, 10, 0, 458760, 11, 0, 458761, 12
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
-[node name="CrewMemberCount" type="Label" parent="GUI"]
-margin_left = 6.0
-margin_top = 7.0
-margin_right = 198.0
-margin_bottom = 29.0
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CrewMemberCount" type="Label" parent="GUI/VBoxContainer"]
+margin_right = 192.0
+margin_bottom = 22.0
 custom_fonts/font = SubResource( 19 )
 text = "Crew Members: "
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CurrentSail" type="Label" parent="GUI/VBoxContainer"]
+margin_top = 26.0
+margin_right = 192.0
+margin_bottom = 48.0
+custom_fonts/font = SubResource( 19 )
+text = "Crew Members: "
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerSpeed" type="Label" parent="GUI/VBoxContainer"]
+margin_top = 52.0
+margin_right = 192.0
+margin_bottom = 74.0
+custom_fonts/font = SubResource( 19 )
+text = "Crew Members: "
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerMaxSpeed" type="Label" parent="GUI/VBoxContainer"]
+margin_top = 78.0
+margin_right = 192.0
+margin_bottom = 100.0
+custom_fonts/font = SubResource( 19 )
+text = "Crew Members: "
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CrewMemberManager" type="Control" parent="GUI"]
 visible = false
@@ -801,8 +852,15 @@ CrewMemberLine = ExtResource( 11 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 18 )
-position = Vector2( 519, 325.719 )
-scale = Vector2( 81.1934, 67.21 )
+position = Vector2( 235, 471 )
+scale = Vector2( 3, 3 )
+z_index = -999
+texture = ExtResource( 7 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+material = SubResource( 18 )
+position = Vector2( 2036, 1204 )
+scale = Vector2( 9, 9 )
 z_index = -999
 texture = ExtResource( 7 )
 
@@ -810,9 +868,11 @@ texture = ExtResource( 7 )
 position = Vector2( 380, 214 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color( 0.694118, 0.694118, 0.694118, 1 )
 
 [node name="Light2D" type="Light2D" parent="."]
+visible = false
 position = Vector2( 411, 245 )
 scale = Vector2( 123.357, 106.076 )
 texture = ExtResource( 10 )
