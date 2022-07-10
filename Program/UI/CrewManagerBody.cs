@@ -18,7 +18,7 @@ public class CrewManagerBody : VBoxContainer
             c.QueueFree();
         }
 
-        foreach (var m in player.Crew)
+        foreach (var m in player.Crew.CrewList)
         {
             var l = CrewMemberLine.Instance<CrewMemberLine>();
             l.Member = m;

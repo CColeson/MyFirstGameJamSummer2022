@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Visuals/Tilesheet/tiles_sheet.png" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://Assets/Fonts/PixelPirateRegular-PXYZ.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Program/World.cs" type="Script" id=8]
 [ext_resource path="res://Scenes/CannonBall.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Assets/Visuals/light.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/CrewMemberLine.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Program/UI/CrewManagerBody.cs" type="Script" id=12]
 [ext_resource path="res://Program/UI/CurrentSailLabel.cs" type="Script" id=13]
@@ -525,6 +524,8 @@ tile_data = PoolIntArray( 458758, 9, 0, 458759, 10, 0, 458760, 11, 0, 458761, 12
 [node name="GUI" type="CanvasLayer" parent="."]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI"]
+margin_left = 3.0
+margin_top = 4.0
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
@@ -629,15 +630,3 @@ CrewMemberLine = ExtResource( 11 )
 
 [node name="CannonBall" parent="." instance=ExtResource( 9 )]
 position = Vector2( 380, 214 )
-
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
-color = Color( 0.694118, 0.694118, 0.694118, 1 )
-
-[node name="Light2D" type="Light2D" parent="."]
-visible = false
-position = Vector2( 411, 245 )
-scale = Vector2( 123.357, 106.076 )
-texture = ExtResource( 10 )
-energy = 0.6
-range_height = 2048.0

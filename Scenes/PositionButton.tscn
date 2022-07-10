@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Program/UI/PositionButton.cs" type="Script" id=1]
+
+[node name="PositionButton" type="TextureButton"]
+margin_right = 22.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -7,19 +7,7 @@ using GArray = Godot.Collections.Array;
 public class Player : KinematicBody2D
 {
 	public float MoveSpeed = (float) SailSpeeds.Half.Speed;
-	private SailSpeed _currentSailSpeed = SailSpeeds.Half;
-	public SailSpeed CurrentSailSpeed
-	{
-		get
-		{
-			return _currentSailSpeed;
-		}
-
-		set
-		{
-			_currentSailSpeed = value;
-		}
-	} 
+	public SailSpeed CurrentSailSpeed = SailSpeeds.Half;
 	[Export]
 	public float MaxRotationSpeed = 1.3f;
 	public float RotationSpeed = 1.3f;
@@ -33,8 +21,7 @@ public class Player : KinematicBody2D
 	public Cannons RightCannons;
 	public PlayerCamera Camera;
 	public ActionLabel ActionLabel;
-	public List<CrewMember> Crew;
-	public int MaxCrewCount = 10;
+	public CrewManager Crew = new CrewManager();
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
 	public delegate void State(float delta);
 	public State Anchoring;
@@ -59,15 +46,8 @@ public class Player : KinematicBody2D
 
 		SternParticles.Emitting = false;
 		PositionBeforeMove = GlobalPosition;
-		
-		Crew = new List<CrewMember>()
-		{
-			g.CrewMemberGenerator.Generate(),
-			g.CrewMemberGenerator.Generate()
-		};
-
-		CurrentSailSpeed = SailSpeeds.Half;
 		ActionLabel.Player = this;
+
 		InitializeCannonSignals();
 		InitializeStates();
 		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
@@ -93,26 +73,17 @@ public class Player : KinematicBody2D
 		if (Input.IsActionJustPressed("anchor"))
 		{
 			if (CurrentState == Anchoring || CurrentState == Anchored)
-			{
 				CurrentState = RaisingAnchor;
-			}
-			else {
+			else 
 				CurrentState = Anchoring;
-			}
 		}
 
 		if (Input.IsActionJustPressed("full_sail"))
-		{
 			CurrentSailSpeed = SailSpeeds.Full;
-		}
 		if (Input.IsActionJustPressed("half_sail"))
-		{
 			CurrentSailSpeed = SailSpeeds.Half;
-		}
 		if (Input.IsActionJustPressed("low_sail"))
-		{
 			CurrentSailSpeed = SailSpeeds.Low;
-		}
 	}
 	
 	public override void _PhysicsProcess(float delta)
@@ -137,6 +108,9 @@ public class Player : KinematicBody2D
 		{
 			c.Connect(nameof(Cannon.OnFire), this, nameof(_OnCannonFire));
 		}
+
+		RightCannons.Connect(nameof(Cannons.NoCannonsAvailable), this, nameof(_OnNoCannonsAvailable));
+		LeftCannons.Connect(nameof(Cannons.NoCannonsAvailable), this, nameof(_OnNoCannonsAvailable));
 	}
 
 	public void _OnCannonFire()
@@ -144,22 +118,42 @@ public class Player : KinematicBody2D
 		Camera.AddTrauma(0.15f);
 	}
 
+	public void _OnNoCannonsAvailable()
+	{
+		ActionLabel.Flash("assign a crew member to cannons to shoot");
+	}
+
 	public void OnOverBoardPersonPickedUp(Node person)
 	{
-		if (Crew.Count >= MaxCrewCount)
+		if (!Crew.CanAddCrewMember)
+		{
+			ActionLabel.Flash("crew is at max capactiy");
 			return;
+		}
+			
 
 		var p = person as OverboardPerson;
 		if (p != null)
 		{
-			Crew.Add(p.CrewMember);
-			ActionLabel.CrewMemberAdded(p.CrewMember);
+			var member = p.CrewMember;
+			Crew.Add(member);
+			ActionLabel.Flash($"picked up {member.FirstName} {member.LastName}");
 			EmitSignal(nameof(OnPlayerCrewMemberAdded), this);
 			p.QueueFree();
 		}
 			
 	}
 
+	private void RotateAndMove(float delta)
+	{
+		if (PositionToMoveTo == null || DirectionToMoveTo == null) return;
+		var p = (Vector2) PositionToMoveTo;
+		var moveDir = Transform.x;
+		SternParticles.Emitting = Math.Floor(MoveSpeed) >= 40;
+		RotateToTarget(PositionBeforeMove, p, delta);
+		MoveAndSlide(MoveSpeed * moveDir);
+	}
+	
 	private void InitializeStates()
 	{
 		Default = (float delta) => 
@@ -178,7 +172,6 @@ public class Player : KinematicBody2D
 				CurrentState = Anchored;
 				MoveSpeed = 0;
 			}
-				
 		};
 
 		RaisingAnchor = (float delta) => {
@@ -199,15 +192,5 @@ public class Player : KinematicBody2D
 		};
 
 		CurrentState = Default;
-	}
-
-	private void RotateAndMove(float delta)
-	{
-		if (PositionToMoveTo == null || DirectionToMoveTo == null) return;
-		var p = (Vector2) PositionToMoveTo;
-		var moveDir = Transform.x;
-		SternParticles.Emitting = Math.Floor(MoveSpeed) >= 40;
-		RotateToTarget(PositionBeforeMove, p, delta);
-		MoveAndSlide(MoveSpeed * moveDir);
 	}
 }

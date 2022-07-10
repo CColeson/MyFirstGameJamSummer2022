@@ -11,10 +11,4 @@ public class OverboardPerson : Area2D
             .CrewMemberGenerator
             .Generate();
     }
-
-    public void OnPickup()
-    {
-        QueueFree();
-    }
-
 }

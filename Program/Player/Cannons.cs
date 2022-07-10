@@ -7,6 +7,8 @@ public class Cannons : Node2D
 {
     [Export]
     public PackedScene Projectile;
+    [Signal]
+    public delegate void NoCannonsAvailable();
     private List<Cannon> _Cannons = new List<Cannon>();
     private Node2D _Ship;
     public Node2D Ship
@@ -42,6 +44,11 @@ public class Cannons : Node2D
 
     public void Fire()
     {
+        if (AvailableCannons.Count == 0)
+        {
+            EmitSignal(nameof(NoCannonsAvailable));
+            return;
+        }
         foreach (var c in AvailableCannons)
         {
             c.Fire();

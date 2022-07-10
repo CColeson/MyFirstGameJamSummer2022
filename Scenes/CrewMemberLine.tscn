@@ -1,10 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Visuals/Button/cannon.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Fonts/PixelPirateRegular-PXYZ.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Program/UI/CrewMemberLine.cs" type="Script" id=3]
 [ext_resource path="res://Assets/Visuals/Button/sail.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Visuals/Button/plank.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Visuals/Button/anchor.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Visuals/Button/skull_and_cross.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Visuals/Button/cannon-disabled.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Visuals/Button/sail-disabled.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Visuals/Button/anchor-disabled.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Visuals/heart.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/PositionButton.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=15]
 outline_size = 2
@@ -20,7 +26,7 @@ __meta__ = {
 }
 
 [node name="Name" type="Label" parent="."]
-margin_right = 215.0
+margin_right = 183.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
@@ -31,8 +37,8 @@ __meta__ = {
 }
 
 [node name="HP" type="Label" parent="."]
-margin_left = 219.0
-margin_right = 434.0
+margin_left = 187.0
+margin_right = 371.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
@@ -43,68 +49,71 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-margin_left = 438.0
-margin_right = 460.0
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 375.0
+margin_right = 397.0
 margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 16, 16 )
-
-[node name="TextureButton" type="TextureButton" parent="CenterContainer"]
-margin_right = 22.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture_normal = ExtResource( 1 )
+texture = ExtResource( 10 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="CenterContainer2" type="CenterContainer" parent="."]
-margin_left = 464.0
-margin_right = 486.0
+[node name="VSeparator" type="VSeparator" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 401.0
+margin_right = 408.0
 margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 16, 16 )
+rect_min_size = Vector2( 7, 0 )
 
-[node name="TextureButton" type="TextureButton" parent="CenterContainer2"]
-margin_right = 22.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture_normal = ExtResource( 4 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CenterContainer3" type="CenterContainer" parent="."]
-margin_left = 490.0
+[node name="PositionButtons" type="HBoxContainer" parent="."]
+margin_left = 412.0
 margin_right = 512.0
 margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 16, 16 )
 
-[node name="TextureButton" type="TextureButton" parent="CenterContainer3"]
+[node name="CannonCont" type="CenterContainer" parent="PositionButtons"]
 margin_right = 22.0
 margin_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
+rect_min_size = Vector2( 16, 16 )
+
+[node name="Button" parent="PositionButtons/CannonCont" instance=ExtResource( 11 )]
+texture_normal = ExtResource( 1 )
+texture_disabled = ExtResource( 7 )
+
+[node name="SailCont" type="CenterContainer" parent="PositionButtons"]
+margin_left = 26.0
+margin_right = 48.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 16 )
+
+[node name="Button" parent="PositionButtons/SailCont" instance=ExtResource( 11 )]
+texture_normal = ExtResource( 4 )
+texture_disabled = ExtResource( 8 )
+Represents = 1
+
+[node name="AnchorCont" type="CenterContainer" parent="PositionButtons"]
+margin_left = 52.0
+margin_right = 74.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 16 )
+
+[node name="Button" parent="PositionButtons/AnchorCont" instance=ExtResource( 11 )]
 texture_normal = ExtResource( 5 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_disabled = ExtResource( 9 )
+Represents = 2
+
+[node name="PlankCont" type="CenterContainer" parent="PositionButtons"]
+margin_left = 78.0
+margin_right = 100.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 16 )
+
+[node name="Button" parent="PositionButtons/PlankCont" instance=ExtResource( 11 )]
+texture_normal = ExtResource( 6 )
+Represents = 4

@@ -21,11 +21,11 @@ public class ActionLabel : Node2D
         GlobalRotation = 0;
         GlobalPosition = Player.GlobalPosition + MarginFromPlayer;
     }
-
-    public void CrewMemberAdded(CrewMember member)
+    
+    public void Flash(string message)
     {
         var n = LabelNode.Instance<ActionLabelNode>();
         Container.AddChild(n);
-        n.Text = $"picked up {member.FirstName} {member.LastName}";  
+        n.Text = message;
     }
 }

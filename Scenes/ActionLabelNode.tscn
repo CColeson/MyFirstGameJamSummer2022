@@ -19,6 +19,9 @@ custom_fonts/font = SubResource( 3 )
 text = "Picked Up Some Character"
 align = 1
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorTween" type="Tween" parent="."]
 

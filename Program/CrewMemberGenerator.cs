@@ -20,7 +20,7 @@ public partial class Game : Node
         {
             var n = GetRandomName();
             var h = GetRandomHPValue();
-            return new CrewMember(n.Item1, n.Item2, h, h);
+            return new CrewMember(n.Item1, n.Item2, h, h, CrewPosition.Idle);
         }
 
         private int GetRandomHPValue()
