@@ -42,6 +42,16 @@ public class Cannons : Node2D
        }
     }
 
+    public void InitializeSignals(Player p)
+    {
+        foreach (var c in _Cannons)
+		{
+			c.Connect(nameof(Cannon.OnFire), p, nameof(Player._OnCannonFire));
+		}
+
+		Connect(nameof(Cannons.NoCannonsAvailable), p, nameof(Player._OnNoCannonsAvailable));
+    }
+
     public void Fire()
     {
         if (AvailableCannons.Count == 0)

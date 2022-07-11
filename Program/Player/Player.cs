@@ -102,27 +102,19 @@ public class Player : KinematicBody2D
 
 	private void InitializeCannonSignals()
 	{
-		foreach (var c in LeftCannons.AvailableCannons)
-		{
-			c.Connect(nameof(Cannon.OnFire), this, nameof(_OnCannonFire));
-		}
-		foreach (var c in RightCannons.AvailableCannons)
-		{
-			c.Connect(nameof(Cannon.OnFire), this, nameof(_OnCannonFire));
-		}
-
-		RightCannons.Connect(nameof(Cannons.NoCannonsAvailable), this, nameof(_OnNoCannonsAvailable));
-		LeftCannons.Connect(nameof(Cannons.NoCannonsAvailable), this, nameof(_OnNoCannonsAvailable));
+		LeftCannons.InitializeSignals(this);
+		RightCannons.InitializeSignals(this);
 	}
 
 	public void _OnCannonFire()
 	{
 		Camera.AddTrauma(0.15f);
+		GD.Print("Does this worky?");
 	}
 
 	public void _OnNoCannonsAvailable()
 	{
-		ActionLabel.Flash("assign a crew member to cannons to shoot");
+		ActionLabel.Flash("assign a crew member to cannons to shoot on this side");
 	}
 
 	public void _OnCrewMemberPositionChanged(CrewMember m)
