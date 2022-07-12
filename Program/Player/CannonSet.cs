@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Cannons : Node2D
+public class CannonSet : Node2D
 {
     [Export]
     public PackedScene Projectile;
@@ -49,7 +49,7 @@ public class Cannons : Node2D
 			c.Connect(nameof(Cannon.OnFire), p, nameof(Player._OnCannonFire));
 		}
 
-		Connect(nameof(Cannons.NoCannonsAvailable), p, nameof(Player._OnNoCannonsAvailable));
+		Connect(nameof(NoCannonsAvailable), p, nameof(Player._OnNoCannonsAvailable));
     }
 
     public void Fire()
@@ -62,15 +62,6 @@ public class Cannons : Node2D
         foreach (var c in AvailableCannons)
         {
             c.Fire();
-        }
-    }
-
-    public void AssignCannonTo(CrewMember m)
-    {
-        var c = _Cannons.Where(x => !x.HasCrewMember).FirstOrDefault();
-        if (c != null)
-        {
-            c.CrewMember = m;
         }
     }
 }

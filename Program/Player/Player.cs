@@ -17,8 +17,7 @@ public class Player : KinematicBody2D
 	public Vector2? PositionToMoveTo = null;
 	public Vector2? DirectionToMoveTo = null;
 	public Vector2 PositionBeforeMove = Vector2.Zero;
-	public Cannons LeftCannons;
-	public Cannons RightCannons;
+	public CannonManager CannonManager;
 	public PlayerCamera Camera;
 	public ActionLabel ActionLabel;
 	public CrewManager Crew = new CrewManager();
@@ -36,21 +35,16 @@ public class Player : KinematicBody2D
 		Rng.Randomize();
 
 		World = Game.GetWorldInstance(this);
-		LeftCannons = GetNode<Cannons>("Cannons/Left");
-		RightCannons = GetNode<Cannons>("Cannons/Right");
+		CannonManager = GetNode<CannonManager>("Cannons");
 		Camera = GetNode<PlayerCamera>("Camera2D");
 		SternParticles = GetNode<CPUParticles2D>("SternParticles");
 		ActionLabel = GetNode<ActionLabel>("ActionLabel");
-
-
-		LeftCannons.Ship = this;
-		RightCannons.Ship = this;
-
+		
 		SternParticles.Emitting = false;
 		PositionBeforeMove = GlobalPosition;
 		ActionLabel.Player = this;
-
-		InitializeCannonSignals();
+		
+		CannonManager.InitializeSignals(this);
 		InitializeStates();
 		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
 	}
@@ -66,10 +60,7 @@ public class Player : KinematicBody2D
 
 		if (Input.IsActionJustPressed("attack") && !World.CrewMangerIsOpen)
 		{
-			var mp = GetGlobalMousePosition();
-			var disToRight = RightCannons.GlobalPosition.DistanceTo(mp);
-			var disToLeft = LeftCannons.GlobalPosition.DistanceTo(mp);
-			(disToRight < disToLeft ? RightCannons : LeftCannons).Fire();
+			CannonManager.Fire();
 		}
 
 		if (Input.IsActionJustPressed("anchor"))
@@ -100,16 +91,9 @@ public class Player : KinematicBody2D
 		Rotate(Mathf.Sign(angleTo) * Mathf.Min(delta * RotationSpeed, Mathf.Abs(angleTo)));
 	}
 
-	private void InitializeCannonSignals()
-	{
-		LeftCannons.InitializeSignals(this);
-		RightCannons.InitializeSignals(this);
-	}
-
 	public void _OnCannonFire()
 	{
 		Camera.AddTrauma(0.15f);
-		GD.Print("Does this worky?");
 	}
 
 	public void _OnNoCannonsAvailable()
@@ -119,12 +103,12 @@ public class Player : KinematicBody2D
 
 	public void _OnCrewMemberPositionChanged(CrewMember m)
 	{
-		if (m.CurrentPosition == CrewPosition.Cannon)
-		{
-			var lc = LeftCannons.AvailableCannons.Count;
-			var rc = RightCannons.AvailableCannons.Count;
-			(lc > rc ? RightCannons : LeftCannons).AssignCannonTo(m);
-		}
+		// if (m.CurrentPosition == CrewPosition.Cannon)
+		// {
+		// 	var lc = LeftCannons.AvailableCannons.Count;
+		// 	var rc = RightCannons.AvailableCannons.Count;
+		// 	(lc > rc ? RightCannons : LeftCannons).AssignCannonTo(m);
+		// }
 			
 	}
 

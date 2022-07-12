@@ -10,6 +10,8 @@ public class CrewMemberLine : HBoxContainer
     public delegate void MemberToSails(CrewMember m);
     [Signal]
     public delegate void MemberToAnchor(CrewMember m);
+    [Signal]
+    public delegate void MemberToPlank(CrewMember m);
 
     public CrewMember Member; // to be assigned by parent after instantation
     public Label NameLabel;
@@ -48,12 +50,22 @@ public class CrewMemberLine : HBoxContainer
             bb.Disabled = Member.CurrentPosition == bb.Represents;
         }
         // i hate it too...
-        // switch (Member.CurrentPosition)
-        // {
-        //     case CrewPosition.Cannon:
-        //         break;
-        // }
-        EmitSignal(nameof(MemberToCannon), Member);
+        switch (Member.CurrentPosition)
+        {
+            case CrewPosition.Cannon:
+                EmitSignal(nameof(MemberToCannon), Member);
+                break;
+            case CrewPosition.Sail:
+                EmitSignal(nameof(MemberToSails), Member);
+                break;
+            case CrewPosition.Anchor:
+                EmitSignal(nameof(MemberToAnchor), Member);
+                break;
+            case CrewPosition.Plank:
+                EmitSignal(nameof(MemberToPlank), Member);
+                break;
+        }
+        
     }
 
 }
