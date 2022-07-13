@@ -12,8 +12,12 @@ public class ActionLabel : Node2D
 
     public override void _Ready()
     {
-        Player = Game.GetPlayerInstance(this);
         Container = GetNode<VBoxContainer>("Container");
+    }
+
+    public void OnParentReady(Player p)
+    {
+        Player = p;
     }
 
     public override void _Process(float delta)

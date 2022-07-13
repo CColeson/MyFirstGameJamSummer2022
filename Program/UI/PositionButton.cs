@@ -19,13 +19,13 @@ public class PositionButton : TextureButton
 
     public override void _Ready()
     {
-        var signalToCall = string.Empty;
+        SignalToCall = GetSignalName();
 
         var pCrewMan = Game.GetPlayerInstance(this).Crew;
         Connect(
-            signalToCall,
+            SignalToCall,
             pCrewMan,
-            signalToCall
+            SignalToCall
         );
     }
 

@@ -40,17 +40,17 @@ public class Player : KinematicBody2D
 		SternParticles = GetNode<CPUParticles2D>("SternParticles");
 		ActionLabel = GetNode<ActionLabel>("ActionLabel");
 		Crew = GetNode<CrewManager>("CrewManager");
+
 		Crew.OnParentReady(this);
-		
-		SternParticles.Emitting = false;
-		PositionBeforeMove = GlobalPosition;
-		ActionLabel.Player = this;
-		
+		ActionLabel.OnParentReady(this);
 		CannonController.InitializeSignals(this);
 
+		SternParticles.Emitting = false;
+		PositionBeforeMove = GlobalPosition;
 		InitializeStates();
 		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
 	}
+
 	public override void _Process(float delta)
 	{
 		if (Input.IsActionPressed("move")) 
