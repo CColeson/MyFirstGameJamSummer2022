@@ -1,27 +1,21 @@
 using Godot;
-using System;
 
-public class CannonManager : Node2D
+public class CannonManager : Manager
 {
-    private CannonSet RightCannons;
-    private CannonSet LeftCannons;
-    public override void _Ready()
+    private CannonController _controller;
+    public CannonManager(CannonController cannonController) : base()
     {
-        RightCannons = GetNode<CannonSet>("Right");
-        LeftCannons = GetNode<CannonSet>("Left");
+        _controller = cannonController;
+    }
+    public override void AddCrewMember(CrewMember m)
+    {
+        base.AddCrewMember(m);
+        _controller.AssignMemberToCannon(m);
     }
 
-    public void Fire()
+    public override void RemoveCrewMember(CrewMember m)
     {
-        var mp = GetGlobalMousePosition();
-        var disToRight = RightCannons.GlobalPosition.DistanceTo(mp);
-        var disToLeft = LeftCannons.GlobalPosition.DistanceTo(mp);
-        (disToRight < disToLeft ? RightCannons : LeftCannons).Fire();
-    }
-
-    public void InitializeSignals(Player p)
-    {
-        RightCannons.InitializeSignals(p);
-        LeftCannons.InitializeSignals(p);
+        base.RemoveCrewMember(m);
+        _controller.RemoveCrewMember(m);
     }
 }

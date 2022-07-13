@@ -17,10 +17,10 @@ public class Player : KinematicBody2D
 	public Vector2? PositionToMoveTo = null;
 	public Vector2? DirectionToMoveTo = null;
 	public Vector2 PositionBeforeMove = Vector2.Zero;
-	public CannonManager CannonManager;
+	public CannonController CannonController;
 	public PlayerCamera Camera;
 	public ActionLabel ActionLabel;
-	public CrewManager Crew = new CrewManager();
+	public CrewManager Crew;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
 	public delegate void State(float delta);
 	public State Anchoring;
@@ -35,16 +35,19 @@ public class Player : KinematicBody2D
 		Rng.Randomize();
 
 		World = Game.GetWorldInstance(this);
-		CannonManager = GetNode<CannonManager>("Cannons");
+		CannonController = GetNode<CannonController>("Cannons");
 		Camera = GetNode<PlayerCamera>("Camera2D");
 		SternParticles = GetNode<CPUParticles2D>("SternParticles");
 		ActionLabel = GetNode<ActionLabel>("ActionLabel");
+		Crew = GetNode<CrewManager>("CrewManager");
+		Crew.OnParentReady(this);
 		
 		SternParticles.Emitting = false;
 		PositionBeforeMove = GlobalPosition;
 		ActionLabel.Player = this;
 		
-		CannonManager.InitializeSignals(this);
+		CannonController.InitializeSignals(this);
+
 		InitializeStates();
 		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
 	}
@@ -60,7 +63,7 @@ public class Player : KinematicBody2D
 
 		if (Input.IsActionJustPressed("attack") && !World.CrewMangerIsOpen)
 		{
-			CannonManager.Fire();
+			CannonController.Fire();
 		}
 
 		if (Input.IsActionJustPressed("anchor"))
@@ -99,17 +102,6 @@ public class Player : KinematicBody2D
 	public void _OnNoCannonsAvailable()
 	{
 		ActionLabel.Flash("assign a crew member to cannons to shoot on this side");
-	}
-
-	public void _OnCrewMemberPositionChanged(CrewMember m)
-	{
-		// if (m.CurrentPosition == CrewPosition.Cannon)
-		// {
-		// 	var lc = LeftCannons.AvailableCannons.Count;
-		// 	var rc = RightCannons.AvailableCannons.Count;
-		// 	(lc > rc ? RightCannons : LeftCannons).AssignCannonTo(m);
-		// }
-			
 	}
 
 	public void OnOverBoardPersonPickedUp(Node person)

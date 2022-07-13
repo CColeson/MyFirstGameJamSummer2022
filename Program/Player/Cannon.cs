@@ -5,10 +5,8 @@ using System.Linq;
 
 public class Cannon : Position2D
 {
-	public bool HasCrewMember
-	{
-		get { return CrewMember != null; }
-	}
+	[Export]
+	public PackedScene Projectile;
 	[Export]
 	public float FireTimeMin = 0.1f;
 	[Export]
@@ -24,7 +22,6 @@ public class Cannon : Position2D
 	public Position2D DirectionPointer; // I am not strong at math, this is a shit workaround...
 	public List<CPUParticles2D> ParticleEmitters;
 	public AudioStreamPlayer FireSound;
-	public PackedScene Projectile;
 	public Timer Timer;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
 	public CrewMember CrewMember = null;

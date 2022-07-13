@@ -79,6 +79,7 @@ rect_min_size = Vector2( 16, 16 )
 [node name="Button" parent="PositionButtons/CannonCont" instance=ExtResource( 11 )]
 texture_normal = ExtResource( 1 )
 texture_disabled = ExtResource( 7 )
+Position = 0
 
 [node name="SailCont" type="CenterContainer" parent="PositionButtons"]
 margin_left = 26.0
@@ -91,7 +92,7 @@ rect_min_size = Vector2( 16, 16 )
 [node name="Button" parent="PositionButtons/SailCont" instance=ExtResource( 11 )]
 texture_normal = ExtResource( 4 )
 texture_disabled = ExtResource( 8 )
-Represents = 1
+Position = 1
 
 [node name="AnchorCont" type="CenterContainer" parent="PositionButtons"]
 margin_left = 52.0
@@ -104,7 +105,7 @@ rect_min_size = Vector2( 16, 16 )
 [node name="Button" parent="PositionButtons/AnchorCont" instance=ExtResource( 11 )]
 texture_normal = ExtResource( 5 )
 texture_disabled = ExtResource( 9 )
-Represents = 2
+Position = 2
 
 [node name="PlankCont" type="CenterContainer" parent="PositionButtons"]
 margin_left = 78.0
@@ -116,4 +117,4 @@ rect_min_size = Vector2( 16, 16 )
 
 [node name="Button" parent="PositionButtons/PlankCont" instance=ExtResource( 11 )]
 texture_normal = ExtResource( 6 )
-Represents = 4
+Position = 4

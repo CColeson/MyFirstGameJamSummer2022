@@ -9,14 +9,11 @@ public class CrewMember: Godot.Object
     public string LastName;
     public int HP;
     public int MaxHP;
-    public CrewPosition CurrentPosition;
-
-    public CrewMember(string firstName, string lastName, int maxHP, int HP, CrewPosition currentPosition)
+    public CrewMember(string firstName, string lastName, int maxHP, int HP)
     {
         FirstName = firstName;
         LastName = lastName;
         MaxHP = maxHP;
-        CurrentPosition = currentPosition;
         this.HP = HP;
     }
 }

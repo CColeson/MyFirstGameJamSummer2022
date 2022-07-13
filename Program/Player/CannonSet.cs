@@ -5,8 +5,6 @@ using System.Linq;
 
 public class CannonSet : Node2D
 {
-    [Export]
-    public PackedScene Projectile;
     [Signal]
     public delegate void NoCannonsAvailable();
     private List<Cannon> _Cannons = new List<Cannon>();
@@ -30,16 +28,13 @@ public class CannonSet : Node2D
     {
         get
         {
-            return _Cannons.Where(x => x.HasCrewMember).ToList();
+            return _Cannons.Where(x => x.CrewMember != null).ToList();
         }
     }
+
     public override void _Ready()
     {
        _Cannons =  GetChildren().Cast<Cannon>().ToList();
-       foreach (var c in _Cannons)
-       {
-            c.Projectile = Projectile;
-       }
     }
 
     public void InitializeSignals(Player p)
@@ -63,5 +58,24 @@ public class CannonSet : Node2D
         {
             c.Fire();
         }
+    }
+
+    public void AssignMemberToCannon(CrewMember m)
+    {
+        var c = _Cannons.Where(x => x.CrewMember == null).FirstOrDefault();
+        GD.Print(c);
+        if (c != null)
+        {
+            c.CrewMember = m;
+            GD.Print(c.CrewMember.FirstName);
+        }
+            
+    }
+
+    public void RemoveCrewMemberFromCannon(CrewMember m)
+    {
+        var c = AvailableCannons.FirstOrDefault();
+        if (c != null)
+            c.CrewMember = null;
     }
 }
