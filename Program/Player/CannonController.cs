@@ -28,6 +28,9 @@ public class CannonController : Node2D
 
     public void AssignMemberToCannon(CrewMember m)
     {
+        GD.Print(RightCannons.AvailableCannons.Count);
+        GD.Print(LeftCannons.AvailableCannons.Count);
+        GD.Print("");
         (RightCannons.AvailableCannons.Count > LeftCannons.AvailableCannons.Count 
             ? LeftCannons : RightCannons).AssignMemberToCannon(m);
     }

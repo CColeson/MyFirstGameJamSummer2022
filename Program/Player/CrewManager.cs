@@ -7,9 +7,11 @@ public class CrewManager : Godot.Node
 {
     public int MaxCrewCount = 10;
     public int CrewCount { get { return CrewList.Count; } }
+    public int SailsCount { get { return _sailManager.CrewCount; }}
+    public int CannonsCount { get { return _cannonManager.CrewCount; }}
+    public int AnchorsCount { get { return _anchorManager.CrewCount; }}
     public bool CanAddCrewMember { get { return CrewCount < MaxCrewCount; } }
     public List<CrewMember> CrewList = new List<CrewMember>();
-    public CannonController _CannonController; // assigned by parent
     private CannonManager _cannonManager; // instantiated on ready provided player has a cannon controller
     private Manager _sailManager = new Manager();
     private Manager _anchorManager = new Manager();
@@ -36,6 +38,7 @@ public class CrewManager : Godot.Node
 
     public void MemberToCannon(CrewMember m)
     {
+        GD.Print(m.LastName);
         _removeMemberFromAllPositions(m);
         _cannonManager.AddCrewMember(m);
     }
@@ -55,5 +58,16 @@ public class CrewManager : Godot.Node
     public void MemberToPlank(CrewMember m)
     {
         //todo
+    }
+
+    public CrewPosition GetCrewMemberPosition(CrewMember m)
+    {
+        if (_cannonManager.HasCrewMember(m))
+            return CrewPosition.Cannon;
+        if (_sailManager.HasCrewMember(m))
+            return CrewPosition.Sail;
+        if (_anchorManager.HasCrewMember(m))
+            return CrewPosition.Anchor;
+        return CrewPosition.Idle;
     }
 }

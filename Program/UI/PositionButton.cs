@@ -20,13 +20,20 @@ public class PositionButton : TextureButton
     public override void _Ready()
     {
         SignalToCall = GetSignalName();
-
         var pCrewMan = Game.GetPlayerInstance(this).Crew;
         Connect(
             SignalToCall,
             pCrewMan,
             SignalToCall
         );
+    }
+
+    public void OnParentReady(CrewMemberLine p)
+    {
+        Line = p;
+        var pCrewMan = Game.GetPlayerInstance(this).Crew;
+        var pos = pCrewMan.GetCrewMemberPosition(p.Member);
+        Disabled = pos == Position; 
     }
 
     private string GetSignalName()

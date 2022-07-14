@@ -63,18 +63,13 @@ public class CannonSet : Node2D
     public void AssignMemberToCannon(CrewMember m)
     {
         var c = _Cannons.Where(x => x.CrewMember == null).FirstOrDefault();
-        GD.Print(c);
         if (c != null)
-        {
             c.CrewMember = m;
-            GD.Print(c.CrewMember.FirstName);
-        }
-            
     }
 
     public void RemoveCrewMemberFromCannon(CrewMember m)
     {
-        var c = AvailableCannons.FirstOrDefault();
+        var c = AvailableCannons.Where(x => x.CrewMember == m).FirstOrDefault();
         if (c != null)
             c.CrewMember = null;
     }

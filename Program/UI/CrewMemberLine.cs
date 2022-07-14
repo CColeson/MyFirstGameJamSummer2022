@@ -20,7 +20,7 @@ public class CrewMemberLine : HBoxContainer
         foreach (CenterContainer c in GetNode<HBoxContainer>("PositionButtons").GetChildren())
         {
             var b = c.GetNode<PositionButton>("Button");
-            b.Line = this;
+            b.OnParentReady(this);
             _posButts.Add(b);
         }
     }

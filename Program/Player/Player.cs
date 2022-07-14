@@ -7,10 +7,11 @@ using GArray = Godot.Collections.Array;
 public class Player : KinematicBody2D
 {
 	public float MoveSpeed = (float) SailSpeeds.Half.Speed;
+	public float MaxSpeed { get { return CurrentSailSpeed.Speed + (Crew.SailsCount * 5);} }
 	public SailSpeed CurrentSailSpeed = SailSpeeds.Half;
-	[Export]
-	public float MaxRotationSpeed = 1.3f;
-	public float RotationSpeed = 1.3f;
+	public float MaxRotationSpeed { get { return 1.2f + (Crew.SailsCount * 0.05f); } }
+	public float RotationSpeed = 1.2f;
+	public float StoppingSpeed { get { return 40 + (Crew.AnchorsCount * 10); }}
 	[Signal]
 	public delegate void OnPlayerCrewMemberAdded();
 	public CPUParticles2D SternParticles;
@@ -138,14 +139,23 @@ public class Player : KinematicBody2D
 	{
 		Default = (float delta) => 
 		{
-			MoveSpeed = CurrentSailSpeed.Speed;
+			MoveSpeed = MaxSpeed;
+			if (RotationSpeed < MaxRotationSpeed)
+			{
+				RotationSpeed += delta;
+			}
+			else
+			{
+				RotationSpeed = MaxRotationSpeed;
+			}
+				
 			RotateAndMove(delta);
 		};
 
 		Anchoring = (float delta) => 
 		{
 			RotateAndMove(delta);
-			MoveSpeed = Mathf.Clamp(MoveSpeed - 60 * delta, 0, CurrentSailSpeed.Speed);
+			MoveSpeed = Mathf.Clamp(MoveSpeed - StoppingSpeed * delta, 0, MaxSpeed);
 			RotationSpeed = Mathf.Clamp(RotationSpeed - 0.05f * delta, 0, MaxRotationSpeed);
 			if (MoveSpeed <= 0)
 			{
@@ -156,12 +166,12 @@ public class Player : KinematicBody2D
 
 		RaisingAnchor = (float delta) => {
 			RotateAndMove(delta);
-			MoveSpeed = Mathf.Clamp(MoveSpeed + 60 * delta, 0, CurrentSailSpeed.Speed);
+			MoveSpeed = Mathf.Clamp(MoveSpeed + 60 * delta, 0, MaxSpeed);
 			RotationSpeed = Mathf.Clamp(RotationSpeed + 0.05f * delta, 0, MaxRotationSpeed);
-			if (MoveSpeed >= CurrentSailSpeed.Speed)
+			if (MoveSpeed >= MaxSpeed)
 			{
 				CurrentState = Default;
-				MoveSpeed = CurrentSailSpeed.Speed;
+				MoveSpeed = MaxSpeed;
 				RotationSpeed = MaxRotationSpeed;
 			}	
 		};

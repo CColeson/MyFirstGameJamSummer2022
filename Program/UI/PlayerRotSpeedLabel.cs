@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PlayerMaxSpeedLabel : Label
+public class PlayerRotSpeedLabel : Label
 {
     private Player Player;
     public override void _Ready()
@@ -11,6 +11,6 @@ public class PlayerMaxSpeedLabel : Label
 
     public override void _Process(float delta)
     {
-        Text = $"max speed:  {Player.MaxSpeed}";
+        Text = $"rot speed:  {Player.RotationSpeed}";
     }
 }
