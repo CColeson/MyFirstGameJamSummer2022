@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Program/Player/Cannon.cs" type="Script" id=1]
+[ext_resource path="res://Program/Cannon.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Audio/cannon_fire.ogg" type="AudioStream" id=2]
 [ext_resource path="res://Scenes/CannonBall.tscn" type="PackedScene" id=3]
 

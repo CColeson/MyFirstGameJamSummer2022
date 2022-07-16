@@ -8,8 +8,8 @@ public class CannonSet : Node2D
     [Signal]
     public delegate void NoCannonsAvailable();
     private List<Cannon> _Cannons = new List<Cannon>();
-    private Node2D _Ship;
-    public Node2D Ship
+    private Ship _Ship;
+    public Ship Ship
     {
         get 
         {

@@ -7,10 +7,10 @@ public class CrewManagerBody : VBoxContainer
     public PackedScene CrewMemberLine;
     public override void _Ready()
     {
-        _OnPlayerCrewAdded(Game.GetPlayerInstance(this));
+        _OnPlayerCrewUpdated(Game.GetPlayerInstance(this));
     }
 
-    public void _OnPlayerCrewAdded(Player player)
+    public void _OnPlayerCrewUpdated(Player player)
     {
         foreach (Node c in GetChildren())
         {

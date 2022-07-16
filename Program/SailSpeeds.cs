@@ -1,8 +1,8 @@
 public static class SailSpeeds
 {
-    public static SailSpeed Full = new SailSpeed(150, "full");
-    public static SailSpeed Half = new SailSpeed(110, "half");
-    public static SailSpeed Low = new SailSpeed(50, "low");
+    public static SailSpeed Full = new SailSpeed(110, "full");
+    public static SailSpeed Half = new SailSpeed(80, "half");
+    public static SailSpeed Low = new SailSpeed(30, "low");
 }
 
 public struct SailSpeed
