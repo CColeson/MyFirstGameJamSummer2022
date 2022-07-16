@@ -50,7 +50,7 @@ position = Vector2( 2863, 1734 )
 position = Vector2( 5910, 2339 )
 
 [node name="OverboardPerson8" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
-position = Vector2( 937, 494 )
+position = Vector2( 2138, 1049 )
 
 [node name="OverboardPerson9" parent="OverboardCrewMembers" instance=ExtResource( 3 )]
 position = Vector2( 17, 3759 )
