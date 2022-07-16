@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Visuals/Button/skull_and_cross.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/PositionButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Program/UI/PositionButton.cs" type="Script" id=3]
+
+[node name="PlankCont" type="CenterContainer"]
+margin_left = 78.0
+margin_right = 100.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 16 )
+
+[node name="Button" type="TextureButton" parent="." instance=ExtResource( 2 )]
+margin_right = 22.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 1 )
+expand = true
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+Position = 4

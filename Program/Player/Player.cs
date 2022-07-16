@@ -147,7 +147,7 @@ public class Player : Ship
 			CurrentSailSpeed = SailSpeeds.Zero;
 			CurrentState = Death;
 			Camera.PlayerIsDead = true;
-			EmitSignal(nameof(OnPlayerDeath), this);
+			EmitSignal(nameof(OnPlayerDeath));
 		}
 		EmitSignal(nameof(OnCrewUpdated), this);
 	}

@@ -14,7 +14,7 @@ public class Enemy : Ship
     public override void _Ready()
     {
         base._Ready();
-
+        RotationDegrees = _rng.RandfRange(0, 360);
         var g = Game.GetGlobalInstance(this);
         for (int i=0; i < _rng.RandiRange(MinCrewCount, MaxCrewCount); i++)
         {
@@ -45,6 +45,12 @@ public class Enemy : Ship
         if (c == null || c.Creator == this)
             return;
 
+        if (_attacking == null)
+        {
+            var a = c.Creator as Player;
+            if (a != null)
+                _attacking = a;
+        }
         Crew.DamageCrewMember();
     }
 

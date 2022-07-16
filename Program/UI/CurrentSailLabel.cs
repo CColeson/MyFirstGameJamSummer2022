@@ -11,6 +11,6 @@ public class CurrentSailLabel : Label
 
     public override void _Process(float delta)
     {
-        Text = $"sail:  {Player.CurrentSailSpeed.Name}";
+        Text = $"speed:  {Player.CurrentSailSpeed.Name}";
     }
 }

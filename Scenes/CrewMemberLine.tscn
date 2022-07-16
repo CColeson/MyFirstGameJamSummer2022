@@ -1,11 +1,10 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Visuals/Button/cannon.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Fonts/PixelPirateRegular-PXYZ.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Program/UI/CrewMemberLine.cs" type="Script" id=3]
 [ext_resource path="res://Assets/Visuals/Button/sail.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Visuals/Button/anchor.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Visuals/Button/skull_and_cross.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Visuals/Button/cannon-disabled.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Visuals/Button/sail-disabled.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Visuals/Button/anchor-disabled.png" type="Texture" id=9]
@@ -26,7 +25,7 @@ __meta__ = {
 }
 
 [node name="Name" type="Label" parent="."]
-margin_right = 183.0
+margin_right = 196.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
@@ -37,8 +36,8 @@ __meta__ = {
 }
 
 [node name="HP" type="Label" parent="."]
-margin_left = 187.0
-margin_right = 371.0
+margin_left = 200.0
+margin_right = 397.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
@@ -50,8 +49,8 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = 375.0
-margin_right = 397.0
+margin_left = 401.0
+margin_right = 423.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 22, 22 )
 texture = ExtResource( 10 )
@@ -59,13 +58,13 @@ expand = true
 
 [node name="VSeparator" type="VSeparator" parent="."]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 401.0
-margin_right = 408.0
+margin_left = 427.0
+margin_right = 434.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 7, 0 )
 
 [node name="PositionButtons" type="HBoxContainer" parent="."]
-margin_left = 412.0
+margin_left = 438.0
 margin_right = 512.0
 margin_bottom = 22.0
 
@@ -106,15 +105,3 @@ rect_min_size = Vector2( 16, 16 )
 texture_normal = ExtResource( 5 )
 texture_disabled = ExtResource( 9 )
 Position = 2
-
-[node name="PlankCont" type="CenterContainer" parent="PositionButtons"]
-margin_left = 78.0
-margin_right = 100.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 16, 16 )
-
-[node name="Button" parent="PositionButtons/PlankCont" instance=ExtResource( 11 )]
-texture_normal = ExtResource( 6 )
-Position = 4
