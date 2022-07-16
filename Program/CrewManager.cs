@@ -65,6 +65,14 @@ public class CrewManager : Godot.Node
         //todo
     }
 
+    public void HealAllCrewMembers()
+    {
+        foreach(var c in CrewList)
+        {
+            c.HP = c.MaxHP;
+        }
+    }
+
     // just to be sure that enemies have at least two cannons
     public void MoveMemberOffCannonToCannon()
     {

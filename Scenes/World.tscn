@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/tileset.tres" type="TileSet" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://noise_texture.tres" type="Texture" id=19]
 [ext_resource path="res://icon.png" type="Texture" id=20]
 [ext_resource path="res://2d_simple_water.gdshader" type="Shader" id=21]
+[ext_resource path="res://Scenes/RumPickup.tscn" type="PackedScene" id=22]
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 5 )
@@ -437,3 +438,20 @@ position = Vector2( 3435, 2727 )
 scale = Vector2( 412.313, 371.602 )
 z_index = -999
 texture = ExtResource( 20 )
+
+[node name="RumPickups" type="Node" parent="."]
+
+[node name="RumPickup" parent="RumPickups" instance=ExtResource( 22 )]
+position = Vector2( 617, 3186 )
+
+[node name="RumPickup2" parent="RumPickups" instance=ExtResource( 22 )]
+position = Vector2( 1606, 5997 )
+
+[node name="RumPickup3" parent="RumPickups" instance=ExtResource( 22 )]
+position = Vector2( 5090, 3491 )
+
+[node name="RumPickup4" parent="RumPickups" instance=ExtResource( 22 )]
+position = Vector2( 3577, 2731 )
+
+[node name="RumPickup5" parent="RumPickups" instance=ExtResource( 22 )]
+position = Vector2( 5637, 315 )

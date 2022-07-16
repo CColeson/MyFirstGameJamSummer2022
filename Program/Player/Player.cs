@@ -24,6 +24,7 @@ public class Player : Ship
 	public State Death;
 	public State CurrentState;
 	private World World;
+	private AudioStreamPlayer2D _pickupSound;
 
 	public override void _Ready()
 	{
@@ -33,6 +34,7 @@ public class Player : Ship
 		Camera = GetNode<PlayerCamera>("Camera2D");
 		SternParticles = GetNode<CPUParticles2D>("SternParticles");
 		ActionLabel = GetNode<ActionLabel>("ActionLabel");
+		_pickupSound = GetNode<AudioStreamPlayer2D>("PickupSoundPlayer");
 
 		Crew.Add(Game.GetGlobalInstance(this).CrewMemberGenerator.Generate());
 		ActionLabel.OnParentReady(this);
@@ -42,7 +44,9 @@ public class Player : Ship
 		PositionBeforeMove = GlobalPosition;
 		InitializeStates();
 
-		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
+		var p = GetNode<Area2D>("PickupArea");
+		p.Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
+		p.Connect("area_entered", this, nameof(OnBarrelPickedUp));
 	}
 
 	public override void _Process(float delta)
@@ -79,12 +83,12 @@ public class Player : Ship
 	public override void OnDamageTaken(Node cannonBall)
 	{
 		base.OnDamageTaken(cannonBall);
+
 		var c = cannonBall as CannonBall;
 		if (c == null || c.Creator == this)
 			return;
 
 		Camera.AddTrauma(0.6f);
-		// TODO play sound, spawn explosion
 		EmitSignal(nameof(OnCrewUpdated), this);
 	}
 	
@@ -125,8 +129,23 @@ public class Player : Ship
 		var member = p.CrewMember;
 		Crew.Add(member);
 		ActionLabel.Flash($"picked up {member.FirstName} {member.LastName}");
+		_pickupSound.Play();
 		EmitSignal(nameof(OnCrewUpdated), this);
 		p.QueueFree();
+	}
+
+	
+	public void OnBarrelPickedUp(Node barrel)
+	{
+		var b = barrel as RumPickup;
+		if (b == null)
+			return;
+		
+		_pickupSound.Play();
+		ActionLabel.Flash("your crew feels replenished (and drunk)");
+		Crew.HealAllCrewMembers();
+		b.QueueFree();
+		EmitSignal(nameof(OnCrewUpdated), this);
 	}
 
 	private void RotateAndMove(float delta)
@@ -144,6 +163,7 @@ public class Player : Ship
 		ActionLabel.Flash($"{m.FirstName} {m.LastName} has died");
 		if (Crew.CrewCount <= 0)
 		{
+			CreateDeathExplosion();
 			CurrentSailSpeed = SailSpeeds.Zero;
 			CurrentState = Death;
 			Camera.PlayerIsDead = true;

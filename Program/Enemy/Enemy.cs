@@ -14,6 +14,7 @@ public class Enemy : Ship
     public override void _Ready()
     {
         base._Ready();
+        
         RotationDegrees = _rng.RandfRange(0, 360);
         var g = Game.GetGlobalInstance(this);
         for (int i=0; i < _rng.RandiRange(MinCrewCount, MaxCrewCount); i++)
@@ -58,6 +59,7 @@ public class Enemy : Ship
     {
         if (Crew.CrewCount <= 0)
         {
+            CreateDeathExplosion();
             QueueFree();
         }
     }
