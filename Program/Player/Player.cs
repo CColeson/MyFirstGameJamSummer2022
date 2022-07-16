@@ -4,26 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using GArray = Godot.Collections.Array;
 
-public class Player : KinematicBody2D
+public class Player : Ship
 {
-	public float MoveSpeed = (float) SailSpeeds.Half.Speed;
-	public float MaxSpeed { get { return CurrentSailSpeed.Speed + (Crew.SailsCount * 5);} }
-	public SailSpeed CurrentSailSpeed = SailSpeeds.Half;
-	public float MaxRotationSpeed { get { return 1.2f + (Crew.SailsCount * 0.05f); } }
-	public float RotationSpeed = 1.2f;
-	public float StoppingSpeed { get { return 40 + (Crew.AnchorsCount * 10); }}
 	[Signal]
-	public delegate void OnPlayerCrewMemberAdded();
+	public delegate void OnCrewUpdated();
+	[Signal]
+	public delegate void OnPlayerDeath();
+	public delegate void State(float delta);
 	public CPUParticles2D SternParticles;
 	public Vector2? PositionToMoveTo = null;
 	public Vector2? DirectionToMoveTo = null;
 	public Vector2 PositionBeforeMove = Vector2.Zero;
-	public CannonController CannonController;
 	public PlayerCamera Camera;
 	public ActionLabel ActionLabel;
-	public CrewManager Crew;
-	private RandomNumberGenerator Rng = new RandomNumberGenerator();
-	public delegate void State(float delta);
 	public State Anchoring;
 	public State RaisingAnchor;
 	public State Anchored;
@@ -33,22 +26,21 @@ public class Player : KinematicBody2D
 
 	public override void _Ready()
 	{
-		Rng.Randomize();
+		base._Ready();
 
 		World = Game.GetWorldInstance(this);
-		CannonController = GetNode<CannonController>("Cannons");
 		Camera = GetNode<PlayerCamera>("Camera2D");
 		SternParticles = GetNode<CPUParticles2D>("SternParticles");
 		ActionLabel = GetNode<ActionLabel>("ActionLabel");
-		Crew = GetNode<CrewManager>("CrewManager");
 
-		Crew.OnParentReady(this);
+		Crew.Add(Game.GetGlobalInstance(this).CrewMemberGenerator.Generate());
 		ActionLabel.OnParentReady(this);
-		CannonController.InitializeSignals(this);
+		_cannonController.InitializeSignals(this);
 
 		SternParticles.Emitting = false;
 		PositionBeforeMove = GlobalPosition;
 		InitializeStates();
+
 		GetNode("PickupArea").Connect("area_entered", this, nameof(OnOverBoardPersonPickedUp));
 	}
 
@@ -64,7 +56,7 @@ public class Player : KinematicBody2D
 
 		if (Input.IsActionJustPressed("attack") && !World.CrewMangerIsOpen)
 		{
-			CannonController.Fire();
+			_cannonController.Fire(GetGlobalMousePosition());
 		}
 
 		if (Input.IsActionJustPressed("anchor"))
@@ -81,6 +73,18 @@ public class Player : KinematicBody2D
 			CurrentSailSpeed = SailSpeeds.Half;
 		if (Input.IsActionJustPressed("low_sail"))
 			CurrentSailSpeed = SailSpeeds.Low;
+	}
+
+	public override void OnDamageTaken(Node cannonBall)
+	{
+		base.OnDamageTaken(cannonBall);
+		var c = cannonBall as CannonBall;
+		if (c == null || c.Creator == this)
+			return;
+
+		Camera.AddTrauma(0.6f);
+		// TODO play sound, spawn explosion
+		EmitSignal(nameof(OnCrewUpdated), this);
 	}
 	
 	public override void _PhysicsProcess(float delta)
@@ -107,22 +111,21 @@ public class Player : KinematicBody2D
 
 	public void OnOverBoardPersonPickedUp(Node person)
 	{
+		var p = person as OverboardPerson;
+		if (p == null)
+			return;
+		
 		if (!Crew.CanAddCrewMember)
 		{
 			ActionLabel.Flash("crew is at max capactiy");
 			return;
 		}
-			
-		var p = person as OverboardPerson;
-		if (p != null)
-		{
-			var member = p.CrewMember;
-			Crew.Add(member);
-			ActionLabel.Flash($"picked up {member.FirstName} {member.LastName}");
-			EmitSignal(nameof(OnPlayerCrewMemberAdded), this);
-			p.QueueFree();
-		}
-			
+
+		var member = p.CrewMember;
+		Crew.Add(member);
+		ActionLabel.Flash($"picked up {member.FirstName} {member.LastName}");
+		EmitSignal(nameof(OnCrewUpdated), this);
+		p.QueueFree();
 	}
 
 	private void RotateAndMove(float delta)
@@ -133,6 +136,16 @@ public class Player : KinematicBody2D
 		SternParticles.Emitting = Math.Floor(MoveSpeed) >= 40;
 		RotateToTarget(PositionBeforeMove, p, delta);
 		MoveAndSlide(MoveSpeed * moveDir);
+	}
+
+	public override void OnCrewMemberDeath(CrewMember m)
+	{
+		ActionLabel.Flash($"{m.FirstName} {m.LastName} has died");
+		if (Crew.CrewCount <= 0)
+		{
+			EmitSignal(nameof(OnPlayerDeath), this);
+		}
+		EmitSignal(nameof(OnCrewUpdated), this);
 	}
 
 	private void InitializeStates()

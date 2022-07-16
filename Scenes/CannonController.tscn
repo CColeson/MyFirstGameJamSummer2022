@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Program/CannonController.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Cannon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Program/CannonSet.cs" type="Script" id=4]
+
+[node name="CannonController" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Left" type="Node2D" parent="."]
+position = Vector2( -7, -16 )
+script = ExtResource( 4 )
+
+[node name="Cannon" parent="Left" instance=ExtResource( 3 )]
+position = Vector2( 23, -4 )
+
+[node name="Cannon2" parent="Left" instance=ExtResource( 3 )]
+position = Vector2( -1, -4 )
+
+[node name="Cannon3" parent="Left" instance=ExtResource( 3 )]
+position = Vector2( -25, -4 )
+
+[node name="Cannon4" parent="Left" instance=ExtResource( 3 )]
+position = Vector2( -14, -4 )
+
+[node name="Cannon5" parent="Left" instance=ExtResource( 3 )]
+position = Vector2( 11, -4 )
+
+[node name="Right" type="Node2D" parent="."]
+position = Vector2( -7, 16 )
+script = ExtResource( 4 )
+
+[node name="Cannon" parent="Right" instance=ExtResource( 3 )]
+position = Vector2( 23, 4 )
+rotation = 3.14159
+
+[node name="Cannon2" parent="Right" instance=ExtResource( 3 )]
+position = Vector2( -1, 4 )
+rotation = 3.14159
+
+[node name="Cannon3" parent="Right" instance=ExtResource( 3 )]
+position = Vector2( -25, 4 )
+rotation = 3.14159
+
+[node name="Cannon4" parent="Right" instance=ExtResource( 3 )]
+position = Vector2( -14, 4 )
+rotation = 3.14159
+
+[node name="Cannon5" parent="Right" instance=ExtResource( 3 )]
+position = Vector2( 11, 4 )
+rotation = 3.14159

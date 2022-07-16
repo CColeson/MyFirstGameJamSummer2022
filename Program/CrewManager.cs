@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using System.Linq;
 
 // inheriting Node so it can use signals...
 public class CrewManager : Godot.Node
 {
+    [Signal]
+    public delegate void OnCrewMemberDeath(CrewMember m);
+    [Signal]
+    public delegate void OnCrewMemberTossed(CrewMember m);
     public int MaxCrewCount = 10;
     public int CrewCount { get { return CrewList.Count; } }
     public int SailsCount { get { return _sailManager.CrewCount; }}
@@ -15,10 +20,11 @@ public class CrewManager : Godot.Node
     private CannonManager _cannonManager; // instantiated on ready provided player has a cannon controller
     private Manager _sailManager = new Manager();
     private Manager _anchorManager = new Manager();
+    private RandomNumberGenerator _rng = new RandomNumberGenerator();
 
-    public void OnParentReady(Player parent)
+    public void InitilizeCannonController(CannonController cannonController)
     {
-        _cannonManager = new CannonManager(parent.CannonController);
+        _cannonManager = new CannonManager(cannonController);
     }
 
     public void Add(CrewMember m)
@@ -38,7 +44,6 @@ public class CrewManager : Godot.Node
 
     public void MemberToCannon(CrewMember m)
     {
-        GD.Print(m.LastName);
         _removeMemberFromAllPositions(m);
         _cannonManager.AddCrewMember(m);
     }
@@ -58,6 +63,48 @@ public class CrewManager : Godot.Node
     public void MemberToPlank(CrewMember m)
     {
         //todo
+    }
+
+    // just to be sure that enemies have at least two cannons
+    public void MoveMemberOffCannonToCannon()
+    {
+        var c = CrewList.Where(x => !_cannonManager.HasCrewMember(x)).FirstOrDefault();
+        if (c != null)
+            MemberToCannon(c);
+    }
+
+    public void DamageCrewMember()
+    {
+        
+        for (int i = 0; i < _rng.RandiRange(1, 3); i++)
+        {
+            if (CrewCount <= 0)
+                return;
+
+            var c = CrewList[_rng.RandiRange(0, CrewCount - 1)];
+            c.HP -= 1;
+            if (c.HP <= 0)
+            {
+                CrewList.Remove(c);
+                EmitSignal(nameof(OnCrewMemberDeath), c);
+                continue;
+            }
+        }
+    }
+
+    public void AssignMemberToRandomPosition(CrewMember m)
+    {
+        // yes, its shit
+        switch (_rng.RandiRange(0, 1))
+        {
+            case 1:
+                MemberToSails(m);
+                break;
+            case 0:
+            default:
+                MemberToCannon(m);
+                break;
+        }
     }
 
     public CrewPosition GetCrewMemberPosition(CrewMember m)

@@ -18,7 +18,7 @@ public class Cannon : Position2D
 	[Signal]
 	public delegate void OnFire();
 	private Node2D World;
-	public Node2D Ship;
+	public Ship Ship;
 	public Position2D DirectionPointer; // I am not strong at math, this is a shit workaround...
 	public List<CPUParticles2D> ParticleEmitters;
 	public AudioStreamPlayer FireSound;
@@ -52,6 +52,7 @@ public class Cannon : Position2D
 		World.AddChild(p);
 		p.GlobalPosition = GlobalPosition;
 		p.Direction = p.GlobalPosition.DirectionTo(DirectionPointer.GlobalPosition);
+		p.Creator = Ship;
 		EmitSignal(nameof(OnFire));
 		FireParticles();
 	}

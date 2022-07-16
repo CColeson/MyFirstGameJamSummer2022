@@ -4,19 +4,22 @@ using System.Collections.Generic;
 
 public class CannonController : Node2D
 {
+    public Ship Creator;
     private CannonSet RightCannons;
     private CannonSet LeftCannons;
     public override void _Ready()
     {
         RightCannons = GetNode<CannonSet>("Right");
         LeftCannons = GetNode<CannonSet>("Left");
+
+        RightCannons.Ship = GetParent<Ship>();
+        LeftCannons.Ship = RightCannons.Ship;
     }
 
-    public void Fire()
+    public void Fire(Vector2 position)
     {
-        var mp = GetGlobalMousePosition();
-        var disToRight = RightCannons.GlobalPosition.DistanceTo(mp);
-        var disToLeft = LeftCannons.GlobalPosition.DistanceTo(mp);
+        var disToRight = RightCannons.GlobalPosition.DistanceTo(position);
+        var disToLeft = LeftCannons.GlobalPosition.DistanceTo(position);
         (disToRight < disToLeft ? RightCannons : LeftCannons).Fire();
     }
 
@@ -28,16 +31,13 @@ public class CannonController : Node2D
 
     public void AssignMemberToCannon(CrewMember m)
     {
-        GD.Print(RightCannons.AvailableCannons.Count);
-        GD.Print(LeftCannons.AvailableCannons.Count);
-        GD.Print("");
         (RightCannons.AvailableCannons.Count > LeftCannons.AvailableCannons.Count 
             ? LeftCannons : RightCannons).AssignMemberToCannon(m);
     }
 
     public void RemoveCrewMember(CrewMember m)
     {
-        (RightCannons.AvailableCannons.Count > LeftCannons.AvailableCannons.Count 
-            ? RightCannons : LeftCannons).RemoveCrewMemberFromCannon(m);
+        RightCannons.RemoveCrewMemberFromCannon(m);
+        LeftCannons.RemoveCrewMemberFromCannon(m);
     }
 }

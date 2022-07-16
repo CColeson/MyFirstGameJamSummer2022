@@ -18,6 +18,10 @@ config/icon="res://icon.png"
 
 Game="*res://Program/Game.cs"
 
+[debug]
+
+settings/fps/force_fps=60
+
 [input]
 
 move={

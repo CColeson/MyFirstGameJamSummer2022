@@ -17,7 +17,6 @@ public class PlayerCamera : Camera2D
 	public Vector2 MaxOffset = new Vector2(100, 50);
 	[Export]
 	public float MaxRoll = 0.1f;
-
 	private float _ZoomLevel = 1f;
 	public Tween Tween;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
@@ -38,7 +37,7 @@ public class PlayerCamera : Camera2D
 		Noise.Octaves = 2;
 	}
 	
-	protected float ZoomLevel
+	public float ZoomLevel
 	{
 		set
 		{
