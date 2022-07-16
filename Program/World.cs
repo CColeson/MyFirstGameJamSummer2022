@@ -23,6 +23,7 @@ public class World : Node2D
 	}
 	private Node _enemiesNode;
 	private bool _gameWon = false;
+	private AudioStreamPlayer _defaultMusic;
 	public override void _Ready()
 	{
 		Player = Game.GetPlayerInstance(this);
@@ -32,6 +33,8 @@ public class World : Node2D
 		Player.Connect(nameof(Player.OnCrewUpdated), CrewManagerBody, nameof(CrewManagerBody._OnPlayerCrewUpdated));
 		Player.Connect(nameof(Player.OnPlayerDeath), this, nameof(OnPlayerDeath));
 		_enemiesNode = GetNode<Node>("Enemies");
+		_defaultMusic = GetNode<AudioStreamPlayer>("Music");
+		_defaultMusic.Play();
 	}
 
 	public override void _Process(float delta)
@@ -46,7 +49,7 @@ public class World : Node2D
 			GetTree().ReloadCurrentScene();
 		}
 
-		if (EnemiesRemaining <= 0 && !_gameWon)
+		if ((EnemiesRemaining <= 0 && !_gameWon))// || Input.IsActionJustPressed("autowin")
 		{
 			_gameWon = true;
 			OnWin();
@@ -59,6 +62,8 @@ public class World : Node2D
 		var dt = d.GetNode<Tween>("Tween");
 		dt.InterpolateProperty(d, "modulate", new Color(1,1,1,0), new Color(1,1,1,1), 0.5f);
 		dt.Start();
+		_defaultMusic.Stop();
+		GetNode<AudioStreamPlayer>("LoseMusic").Play();
 	}
 	
 	private void OnWin()
@@ -67,5 +72,7 @@ public class World : Node2D
 		var nt = n.GetNode<Tween>("Tween");
 		nt.InterpolateProperty(n, "modulate", new Color(1,1,1,0), new Color(1,1,1,1), 0.5f);
 		nt.Start();
+		_defaultMusic.Stop();
+		GetNode<AudioStreamPlayer>("WinMusic").Play();
 	}
 }
