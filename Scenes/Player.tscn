@@ -36,7 +36,6 @@ shape = SubResource( 1 )
 [node name="SternParticles" type="CPUParticles2D" parent="."]
 position = Vector2( -47, 0 )
 z_index = -1
-emitting = false
 amount = 15
 lifetime = 3.0
 lifetime_randomness = 0.3
@@ -49,7 +48,7 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 40.0
 scale_amount = 4.0
 scale_amount_random = 1.0
-color = Color( 0.501961, 0.584314, 0.992157, 1 )
+color = Color( 0.796078, 0.823529, 0.945098, 1 )
 script = ExtResource( 9 )
 
 [node name="ActionLabel" parent="." instance=ExtResource( 5 )]

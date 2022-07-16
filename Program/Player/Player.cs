@@ -21,6 +21,7 @@ public class Player : Ship
 	public State RaisingAnchor;
 	public State Anchored;
 	public State Default;
+	public State Death;
 	public State CurrentState;
 	private World World;
 
@@ -143,6 +144,9 @@ public class Player : Ship
 		ActionLabel.Flash($"{m.FirstName} {m.LastName} has died");
 		if (Crew.CrewCount <= 0)
 		{
+			CurrentSailSpeed = SailSpeeds.Zero;
+			CurrentState = Death;
+			Camera.PlayerIsDead = true;
 			EmitSignal(nameof(OnPlayerDeath), this);
 		}
 		EmitSignal(nameof(OnCrewUpdated), this);
@@ -193,6 +197,12 @@ public class Player : Ship
 			RotationSpeed = 0.4f;
 			RotateToTarget(PositionBeforeMove, (Vector2) PositionToMoveTo, delta);
 		};
+
+		Death = (float delta) => {
+
+		};
+
+
 
 		CurrentState = Default;
 	}

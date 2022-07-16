@@ -85,6 +85,7 @@ public class CrewManager : Godot.Node
             c.HP -= 1;
             if (c.HP <= 0)
             {
+                _removeMemberFromAllPositions(c);
                 CrewList.Remove(c);
                 EmitSignal(nameof(OnCrewMemberDeath), c);
                 continue;

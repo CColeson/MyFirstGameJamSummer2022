@@ -48,7 +48,7 @@ color = Color( 0.980392, 0.576471, 0.254902, 1 )
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )
 volume_db = -7.0
 pitch_scale = 1.51

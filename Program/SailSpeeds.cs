@@ -3,6 +3,7 @@ public static class SailSpeeds
     public static SailSpeed Full = new SailSpeed(110, "full");
     public static SailSpeed Half = new SailSpeed(80, "half");
     public static SailSpeed Low = new SailSpeed(30, "low");
+    public static SailSpeed Zero = new SailSpeed(0, "dead");
 }
 
 public struct SailSpeed

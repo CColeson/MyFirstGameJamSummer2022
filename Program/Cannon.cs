@@ -21,7 +21,7 @@ public class Cannon : Position2D
 	public Ship Ship;
 	public Position2D DirectionPointer; // I am not strong at math, this is a shit workaround...
 	public List<CPUParticles2D> ParticleEmitters;
-	public AudioStreamPlayer FireSound;
+	public AudioStreamPlayer2D FireSound;
 	public Timer Timer;
 	private RandomNumberGenerator Rng = new RandomNumberGenerator();
 	public CrewMember CrewMember = null;
@@ -30,7 +30,7 @@ public class Cannon : Position2D
 		World = GetNode<Node2D>("/root/World");
 		DirectionPointer = GetNode<Position2D>("Position2D");
 		Timer = GetNode<Timer>("Timer");
-		FireSound = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		FireSound = GetNode<AudioStreamPlayer2D>("Audio");
 		
 		ParticleEmitters = GetNode("Particles").GetChildren().Cast<CPUParticles2D>().ToList();
 		InitializeParticles();

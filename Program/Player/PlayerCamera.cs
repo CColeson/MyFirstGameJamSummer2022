@@ -24,6 +24,7 @@ public class PlayerCamera : Camera2D
 	private float Trauma = 0f;
 	private float TraumaPower = 2;
 	private float NoiseY = 0;
+	public bool PlayerIsDead = false;
 	
 	public override void _Ready()
 	{
@@ -81,6 +82,8 @@ public class PlayerCamera : Camera2D
 
 	public void Shake()
 	{
+		if (PlayerIsDead)
+			return;
 		var amount = Mathf.Pow(Trauma, TraumaPower);
 		NoiseY += 1;
 		Rotation = MaxRoll * amount * Noise.GetNoise2d(Noise.Seed, NoiseY);
