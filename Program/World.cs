@@ -15,14 +15,14 @@ public class World : Node2D
 		}
 	}
 
-    public override void _Ready()
-    {
-        Player = Game.GetPlayerInstance(this);
-        CrewManager = GetNode<Control>("GUI/CrewMemberManager");
-        //                                          Fuck Godot UI Trees
-        CrewManagerBody = GetNode<CrewManagerBody>("GUI/CrewMemberManager/NinePatchRect/MarginContainer/CrewManagerBody");
-        Player.Connect(nameof(Player.OnCrewUpdated), CrewManagerBody, nameof(CrewManagerBody._OnPlayerCrewUpdated));
-    }
+	public override void _Ready()
+	{
+		Player = Game.GetPlayerInstance(this);
+		CrewManager = GetNode<Control>("GUI/CrewMemberManager");
+		//                                          Fuck Godot UI Trees
+		CrewManagerBody = GetNode<CrewManagerBody>("GUI/CrewMemberManager/NinePatchRect/MarginContainer/CrewManagerBody");
+		Player.Connect(nameof(Player.OnCrewUpdated), CrewManagerBody, nameof(CrewManagerBody._OnPlayerCrewUpdated));
+	}
 
 	public override void _Process(float delta)
 	{
