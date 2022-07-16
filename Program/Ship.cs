@@ -7,10 +7,10 @@ public class Ship : KinematicBody2D
     protected CannonController _cannonController;
     public CrewManager Crew;
     public float MoveSpeed = (float) SailSpeeds.Half.Speed;
-	public float MaxSpeed { get { return CurrentSailSpeed.Speed + (Crew.SailsCount * 5);} }
+	public float MaxSpeed { get { return CurrentSailSpeed.Speed + (Crew.SailsCount * 10);} }
 	public SailSpeed CurrentSailSpeed = SailSpeeds.Half;
-	public float MaxRotationSpeed { get { return 1.2f + (Crew.SailsCount * 0.05f); } }
-	public float RotationSpeed = 1.2f;
+	public float MaxRotationSpeed { get { return 1.0f + (Crew.SailsCount * 0.05f); } }
+	public float RotationSpeed = 1.0f;
 	public float StoppingSpeed { get { return 40 + (Crew.AnchorsCount * 10); }}
 
     public override void _Ready()

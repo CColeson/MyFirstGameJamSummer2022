@@ -37,7 +37,7 @@ public class CannonController : Node2D
 
     public void RemoveCrewMember(CrewMember m)
     {
-        (RightCannons.AvailableCannons.Count > LeftCannons.AvailableCannons.Count 
-            ? RightCannons : LeftCannons).RemoveCrewMemberFromCannon(m);
+        RightCannons.RemoveCrewMemberFromCannon(m);
+        LeftCannons.RemoveCrewMemberFromCannon(m);
     }
 }

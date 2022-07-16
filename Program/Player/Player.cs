@@ -78,7 +78,11 @@ public class Player : Ship
 	public override void OnDamageTaken(Node cannonBall)
 	{
 		base.OnDamageTaken(cannonBall);
-		Camera.AddTrauma(0.27f);
+		var c = cannonBall as CannonBall;
+		if (c == null || c.Creator == this)
+			return;
+
+		Camera.AddTrauma(0.6f);
 		// TODO play sound, spawn explosion
 		EmitSignal(nameof(OnCrewUpdated), this);
 	}

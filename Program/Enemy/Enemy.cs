@@ -7,12 +7,16 @@ public class Enemy : Ship
     private Timer AttackTimer;
     private Player _attacking;
     private Position2D _hullPos;
+
+    [Export]
+    public int MaxCrewCount = 10;
+    public int MinCrewCount = 4;
     public override void _Ready()
     {
         base._Ready();
 
         var g = Game.GetGlobalInstance(this);
-        for (int i=0; i < _rng.RandiRange(6, 10); i++)
+        for (int i=0; i < _rng.RandiRange(MinCrewCount, MaxCrewCount); i++)
         {
             var c = g.CrewMemberGenerator.Generate();
             Crew.Add(g.CrewMemberGenerator.Generate());
@@ -65,7 +69,6 @@ public class Enemy : Ship
     private void RotateAndMove(float delta)
     {
         var moveDir = GlobalPosition.DirectionTo(_hullPos.GlobalPosition);
-        GD.Print(MoveSpeed);
         RotateToTarget(delta);
         MoveAndSlide(MoveSpeed * moveDir);
     }

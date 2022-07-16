@@ -69,7 +69,7 @@ public class CannonSet : Node2D
 
     public void RemoveCrewMemberFromCannon(CrewMember m)
     {
-        var c = AvailableCannons.Where(x => x.CrewMember == m).FirstOrDefault();
+        var c = _Cannons.Where(x => x.CrewMember == m).FirstOrDefault();
         if (c != null)
             c.CrewMember = null;
     }
